@@ -1,4 +1,3 @@
-/assets/bundle*.js
 /coverage/
 /js/**/*.js
 node_modules/
