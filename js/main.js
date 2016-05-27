@@ -3,6 +3,9 @@ CONSTS = {
         BULLET: {
             SPEED: 10,
         },
+        ENEMY: {
+            SPEED: 1,
+        },
         SCREEN: {
             HEIGHT: 300,
             WIDTH: 400,
@@ -78,10 +81,37 @@ function moveBullets() {
     });
 }
 
+var enemyTexture = PIXI.Texture.fromImage('assets/target.png');
+
+enemies = [];
+
+var enemy = new PIXI.Sprite(enemyTexture);
+enemy.anchor.x = 0.5;
+enemy.anchor.y = 0.5;
+enemy.position.x = 450;
+enemy.position.y = 150;
+stage.addChild(enemy);
+
+enemies.push(enemy)
+
+function moveEnemies() {
+    enemies.forEach(function (enemy) {
+        enemy.x -= CONSTS.GAME.ENEMY.SPEED;
+    });
+
+    enemies.forEach(function (enemy, index) {
+        if (enemy.x < 0) {
+            stage.removeChild(enemy);
+            enemies.splice(index, 1);
+        }
+    });
+}
+
 function animate() {
     requestAnimationFrame(animate);
 
     moveBullets();
+    moveEnemies();
 
     if (state.input.left) {
         ship.x -= CONSTS.GAME.SHIP.SPEED;
