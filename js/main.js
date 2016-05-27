@@ -24,6 +24,8 @@ CONSTS = {
 };
 
 state = {
+    bullets: {},
+    enemies: {},
     input: {
         left: false,
         up: false,
@@ -31,6 +33,100 @@ state = {
         down: false,
         shoot: false,
     }
+};
+
+textures = {
+    bullet: PIXI.Texture.fromImage('assets/bullet.png'),
+    enemy: PIXI.Texture.fromImage('assets/target.png'),
+    ship: PIXI.Texture.fromImage('assets/ship.png'),
+};
+
+function Ship() {
+    this.sprite = new PIXI.Sprite(textures.ship);
+    this.sprite.anchor.x = 0.5;
+    this.sprite.anchor.y = 0.5;
+    this.sprite.position.x = 200;
+    this.sprite.position.y = 150;
+    stage.addChild(this.sprite);
+}
+Ship.prototype.getX = function () {
+    return this.sprite.x;
+}
+Ship.prototype.getY = function () {
+    return this.sprite.y;
+}
+Ship.prototype.moveDown = function () {
+    this.sprite.y += CONSTS.GAME.SHIP.SPEED;
+}
+Ship.prototype.moveLeft = function () {
+    this.sprite.x -= CONSTS.GAME.SHIP.SPEED;
+}
+Ship.prototype.moveRight = function () {
+    this.sprite.x += CONSTS.GAME.SHIP.SPEED;
+}
+Ship.prototype.moveUp = function () {
+    this.sprite.y -= CONSTS.GAME.SHIP.SPEED;
+}
+
+function Bullet(x, y) {
+    this.id = Date.now();
+    this.speed = CONSTS.GAME.BULLET.SPEED
+    this.sprite = new PIXI.Sprite(textures.bullet);
+    this.sprite.anchor.x = 0.5;
+    this.sprite.anchor.y = 0.5;
+    this.sprite.position.x = x;
+    this.sprite.position.y = y;
+    stage.addChild(this.sprite);
+    state.bullets[this.id] = this;
+}
+Bullet.prototype.move = function () {
+    this.sprite.x += this.speed;
+}
+Bullet.prototype.removeIfDead = function (index) {
+    if (this.sprite.x > CONSTS.GAME.SCREEN.WIDTH) {
+        stage.removeChild(this.sprite);
+        delete state.bullets[this.id];
+    }
+}
+
+function fireBullet() {
+    new Bullet(ship.getX(), ship.getY());
+    state.input.shoot = false;
+}
+
+function moveBullets() {
+    _.each(state.bullets, function (bullet) {
+        bullet.move();
+        bullet.removeIfDead();
+    });
+}
+
+function Enemy(x, y) {
+    this.id = Date.now();
+    this.speed = CONSTS.GAME.ENEMY.SPEED;
+    this.sprite = new PIXI.Sprite(textures.enemy);
+    this.sprite.anchor.x = 0.5;
+    this.sprite.anchor.y = 0.5;
+    this.sprite.position.x = x;
+    this.sprite.position.y = y;
+    stage.addChild(this.sprite);
+    state.enemies[this.id] = this;
+}
+Enemy.prototype.move = function () {
+    this.sprite.x -= this.speed;
+}
+Enemy.prototype.removeIfDead = function (index) {
+    if (this.sprite.x < 0) {
+        stage.removeChild(this.sprite);
+        delete state.enemies[this.id];
+    }
+}
+
+function moveEnemies() {
+    _.each(state.enemies, function (enemy) {
+        enemy.move();
+        enemy.removeIfDead();
+    });
 }
 
 var stage = new PIXI.Container();
@@ -42,70 +138,9 @@ document.body.appendChild(renderer.view);
 
 requestAnimationFrame(animate);
 
-var shipTexture = PIXI.Texture.fromImage('assets/ship.png');
-var ship = new PIXI.Sprite(shipTexture);
-ship.anchor.x = 0.5;
-ship.anchor.y = 0.5;
-ship.position.x = 200;
-ship.position.y = 150;
+var ship = new Ship();
 
-stage.addChild(ship);
-
-var bulletTexture = PIXI.Texture.fromImage('assets/bullet.png');
-
-bullets = [];
-
-function fireBullet() {
-    var bullet = new PIXI.Sprite(bulletTexture);
-    bullet.anchor.x = 0.5;
-    bullet.anchor.y = 0.5;
-    bullet.position.x = ship.position.x;
-    bullet.position.y = ship.position.y;
-    stage.addChild(bullet);
-
-    bullets.push(bullet)
-
-    state.input.shoot = false;
-}
-
-function moveBullets() {
-    bullets.forEach(function (bullet) {
-        bullet.x += CONSTS.GAME.BULLET.SPEED;
-    });
-
-    bullets.forEach(function (bullet, index) {
-        if (bullet.x > CONSTS.GAME.SCREEN.WIDTH) {
-            stage.removeChild(bullet);
-            bullets.splice(index, 1);
-        }
-    });
-}
-
-var enemyTexture = PIXI.Texture.fromImage('assets/target.png');
-
-enemies = [];
-
-var enemy = new PIXI.Sprite(enemyTexture);
-enemy.anchor.x = 0.5;
-enemy.anchor.y = 0.5;
-enemy.position.x = 450;
-enemy.position.y = 150;
-stage.addChild(enemy);
-
-enemies.push(enemy)
-
-function moveEnemies() {
-    enemies.forEach(function (enemy) {
-        enemy.x -= CONSTS.GAME.ENEMY.SPEED;
-    });
-
-    enemies.forEach(function (enemy, index) {
-        if (enemy.x < 0) {
-            stage.removeChild(enemy);
-            enemies.splice(index, 1);
-        }
-    });
-}
+new Enemy(450, 150);
 
 function animate() {
     requestAnimationFrame(animate);
@@ -114,16 +149,16 @@ function animate() {
     moveEnemies();
 
     if (state.input.left) {
-        ship.x -= CONSTS.GAME.SHIP.SPEED;
+        ship.moveLeft();
     }
     if (state.input.up) {
-        ship.y -= CONSTS.GAME.SHIP.SPEED;
+        ship.moveUp();
     }
     if (state.input.right) {
-        ship.x += CONSTS.GAME.SHIP.SPEED;
+        ship.moveRight();
     }
     if (state.input.down) {
-        ship.y += CONSTS.GAME.SHIP.SPEED;
+        ship.moveDown();
     }
 
     if (state.input.shoot) {
