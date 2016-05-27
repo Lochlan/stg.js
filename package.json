@@ -1,0 +1,14 @@
+{
+  "name": "stg.js",
+  "version": "0.0.0",
+  "description": "stg.js",
+  "dependencies": {
+    "pixi.js": "^3.0.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lochlan McIntosh",
+  "license": "MIT"
+}
