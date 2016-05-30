@@ -51,24 +51,26 @@ function Ship() {
     this.sprite.position.y = 150;
     stage.addChild(this.sprite);
 }
-Ship.prototype.getX = function () {
-    return this.sprite.x;
-}
-Ship.prototype.getY = function () {
-    return this.sprite.y;
-}
-Ship.prototype.moveDown = function () {
-    this.sprite.y += CONSTS.GAME.SHIP.SPEED;
-}
-Ship.prototype.moveLeft = function () {
-    this.sprite.x -= CONSTS.GAME.SHIP.SPEED;
-}
-Ship.prototype.moveRight = function () {
-    this.sprite.x += CONSTS.GAME.SHIP.SPEED;
-}
-Ship.prototype.moveUp = function () {
-    this.sprite.y -= CONSTS.GAME.SHIP.SPEED;
-}
+_.extend(Ship.prototype, {
+    getX: function () {
+        return this.sprite.x;
+    },
+    getY: function () {
+        return this.sprite.y;
+    },
+    moveDown: function () {
+        this.sprite.y += CONSTS.GAME.SHIP.SPEED;
+    },
+    moveLeft: function () {
+        this.sprite.x -= CONSTS.GAME.SHIP.SPEED;
+    },
+    moveRight: function () {
+        this.sprite.x += CONSTS.GAME.SHIP.SPEED;
+    },
+    moveUp: function () {
+        this.sprite.y -= CONSTS.GAME.SHIP.SPEED;
+    },
+});
 
 function Bullet(x, y) {
     this.id = Date.now();
@@ -81,30 +83,32 @@ function Bullet(x, y) {
     stage.addChild(this.sprite);
     state.bullets[this.id] = this;
 }
-Bullet.prototype.getHitboxCoordinates = function () {
-    return {
-        x1: this.sprite.x + this.hitbox.x[0],
-        x2: this.sprite.x + this.hitbox.x[1],
-        y1: this.sprite.y + this.hitbox.y[0],
-        y2: this.sprite.y + this.hitbox.y[1],
-    }
-}
-Bullet.prototype.hitbox = {
-    x: [-2, 2],
-    y: [-2, 2],
-}
-Bullet.prototype.move = function () {
-    this.sprite.x += this.speed;
-}
-Bullet.prototype.remove = function () {
-    stage.removeChild(this.sprite);
-    delete state.bullets[this.id];
-}
-Bullet.prototype.removeIfDead = function (index) {
-    if (this.sprite.x > CONSTS.GAME.SCREEN.WIDTH) {
-        this.remove();
-    }
-}
+_.extend(Bullet.prototype, {
+    getHitboxCoordinates: function () {
+        return {
+            x1: this.sprite.x + this.hitbox.x[0],
+            x2: this.sprite.x + this.hitbox.x[1],
+            y1: this.sprite.y + this.hitbox.y[0],
+            y2: this.sprite.y + this.hitbox.y[1],
+        }
+    },
+    hitbox: {
+        x: [-2, 2],
+        y: [-2, 2],
+    },
+    move: function () {
+        this.sprite.x += this.speed;
+    },
+    remove: function () {
+        stage.removeChild(this.sprite);
+        delete state.bullets[this.id];
+    },
+    removeIfDead: function (index) {
+        if (this.sprite.x > CONSTS.GAME.SCREEN.WIDTH) {
+            this.remove();
+        }
+    },
+});
 
 function fireBullet() {
     new Bullet(ship.getX(), ship.getY());
@@ -129,36 +133,38 @@ function Enemy(x, y) {
     stage.addChild(this.sprite);
     state.enemies[this.id] = this;
 }
-Enemy.prototype.getHitboxCoordinates = function () {
-    return {
-        x1: this.sprite.x + this.hitbox.x[0],
-        x2: this.sprite.x + this.hitbox.x[1],
-        y1: this.sprite.y + this.hitbox.y[0],
-        y2: this.sprite.y + this.hitbox.y[1],
-    }
-}
-Enemy.prototype.getX = function () {
-    return this.sprite.x;
-}
-Enemy.prototype.getY = function () {
-    return this.sprite.y;
-}
-Enemy.prototype.hitbox = {
-    x: [-3, 3],
-    y: [-3, 3],
-}
-Enemy.prototype.move = function () {
-    this.sprite.x -= this.speed;
-}
-Enemy.prototype.remove = function () {
-    stage.removeChild(this.sprite);
-    delete state.enemies[this.id];
-}
-Enemy.prototype.removeIfDead = function () {
-    if (this.sprite.x < 0) {
-        this.remove();
-    }
-}
+_.extend(Enemy.prototype, {
+    getHitboxCoordinates: function () {
+        return {
+            x1: this.sprite.x + this.hitbox.x[0],
+            x2: this.sprite.x + this.hitbox.x[1],
+            y1: this.sprite.y + this.hitbox.y[0],
+            y2: this.sprite.y + this.hitbox.y[1],
+        }
+    },
+    getX: function () {
+        return this.sprite.x;
+    },
+    getY: function () {
+        return this.sprite.y;
+    },
+    hitbox: {
+        x: [-3, 3],
+        y: [-3, 3],
+    },
+    move: function () {
+        this.sprite.x -= this.speed;
+    },
+    remove: function () {
+        stage.removeChild(this.sprite);
+        delete state.enemies[this.id];
+    },
+    removeIfDead: function () {
+        if (this.sprite.x < 0) {
+            this.remove();
+        }
+    },
+});
 
 function moveEnemies() {
     _.each(state.enemies, function (enemy) {
