@@ -1,4 +1,6 @@
-CONSTS = {
+'use strict';
+
+var CONSTS = {
     GAME: {
         BULLET: {
             SPEED: 10,
@@ -23,7 +25,7 @@ CONSTS = {
     }
 };
 
-state = {
+var state = {
     bullets: {},
     enemies: {},
     input: {
@@ -35,7 +37,7 @@ state = {
     }
 };
 
-textures = {
+var textures = {
     bullet: PIXI.Texture.fromImage('assets/bullet.png'),
     enemy: PIXI.Texture.fromImage('assets/target.png'),
     ship: PIXI.Texture.fromImage('assets/ship.png'),
@@ -168,8 +170,8 @@ function moveEnemies() {
 function checkForCollisions() {
     _.each(state.bullets, function (bullet) {
         _.each(state.enemies, function (enemy) {
-            bulletHitbox = bullet.getHitboxCoordinates();
-            enemyHitbox = enemy.getHitboxCoordinates();
+            var bulletHitbox = bullet.getHitboxCoordinates();
+            var enemyHitbox = enemy.getHitboxCoordinates();
 
             if (bulletHitbox.x2 >= enemyHitbox.x1) {
                 if (bulletHitbox.x1 <= enemyHitbox.x2) {
