@@ -40,8 +40,8 @@ _.extend(Collection.prototype, {
         return _.each(this.data, callback);
     },
     nextId: 0,
-    remove: function (id) {
-        delete this.data[id];
+    remove: function (item) {
+        delete this.data[item.id];
     },
 });
 
@@ -120,7 +120,7 @@ _.extend(Bullet.prototype, {
     },
     remove: function () {
         stage.removeChild(this.sprite);
-        this.collection.remove(this.id);
+        this.collection.remove(this);
     },
     removeIfDead: function (index) {
         if (this.sprite.x > CONSTS.GAME.SCREEN.WIDTH) {
@@ -177,7 +177,7 @@ _.extend(Enemy.prototype, {
     },
     remove: function () {
         stage.removeChild(this.sprite);
-        this.collection.remove(this.id);
+        this.collection.remove(this);
     },
     removeIfDead: function () {
         if (this.sprite.x < 0) {
