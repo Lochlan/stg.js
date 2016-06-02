@@ -46,19 +46,9 @@ function moveEnemies() {
 function checkForCollisions() {
     state.bullets.each(function (bullet) {
         state.enemies.each(function (enemy) {
-            var bulletHitbox = bullet.getHitboxCoordinates();
-            var enemyHitbox = enemy.getHitboxCoordinates();
-
-            if (bulletHitbox.x2 >= enemyHitbox.x1) {
-                if (bulletHitbox.x1 <= enemyHitbox.x2) {
-
-                    if (bulletHitbox.y2 >= enemyHitbox.y1) {
-                        if (bulletHitbox.y1 <= enemyHitbox.y2) {
-                            enemy.remove();
-                            bullet.remove();
-                        }
-                    }
-                }
+            if (bullet.collidesWith(enemy)) {
+                enemy.remove();
+                bullet.remove();
             }
         });
     });

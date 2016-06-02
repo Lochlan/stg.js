@@ -18,6 +18,21 @@ class Bullet {
         this.stage.addChild(this.sprite);
     }
 
+    collidesWith(gameObject) {
+        let hitbox = this.getHitboxCoordinates();
+        let gameObjectHitbox = gameObject.getHitboxCoordinates();
+        if (hitbox.x2 >= gameObjectHitbox.x1) {
+            if (hitbox.x1 <= gameObjectHitbox.x2) {
+                if (hitbox.y2 >= gameObjectHitbox.y1) {
+                    if (hitbox.y1 <= gameObjectHitbox.y2) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     getHitboxCoordinates() {
         return {
             x1: this.sprite.x + this.hitbox.x[0],
