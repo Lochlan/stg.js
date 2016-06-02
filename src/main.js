@@ -80,6 +80,21 @@ state.enemies.add(
         stage: stage,
         x: 450,
         y: 150,
+    }),
+    new Enemy({
+        stage: stage,
+        x: 550,
+        y: 50,
+    }),
+    new Enemy({
+        stage: stage,
+        x: 550,
+        y: 150,
+    }),
+    new Enemy({
+        stage: stage,
+        x: 550,
+        y: 250,
     })
 );
 
