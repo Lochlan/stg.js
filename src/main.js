@@ -15,7 +15,8 @@ var state = {
         right: false,
         down: false,
         shoot: false,
-    }
+    },
+    startTime: new Date().getTime(),
 };
 
 function fireBullet(ship, stage) {
@@ -72,28 +73,45 @@ requestAnimationFrame(animate);
 
 var ship = new Ship({stage: stage});
 
-state.enemies.add(
-    new Enemy({
-        stage: stage,
-        x: 450,
-        y: 150,
-    }),
-    new Enemy({
-        stage: stage,
-        x: 550,
-        y: 50,
-    }),
-    new Enemy({
-        stage: stage,
-        x: 550,
-        y: 150,
-    }),
-    new Enemy({
-        stage: stage,
-        x: 550,
-        y: 250,
-    })
-);
+
+let eventQueue = [
+    {
+        time: 0,
+        procedure() {
+            state.enemies.add(new Enemy({stage: stage, x: 450, y: 150}));
+        }
+    },
+    {
+        time: 200,
+        procedure() {
+            state.enemies.add(new Enemy({stage: stage, x: 450, y: 150}));
+        }
+    },
+    {
+        time: 400,
+        procedure() {
+            state.enemies.add(new Enemy({stage: stage, x: 450, y: 150}));
+        }
+    },
+    {
+        time: 600,
+        procedure() {
+            state.enemies.add(new Enemy({stage: stage, x: 450, y: 150}));
+        }
+    },
+    {
+        time: 800,
+        procedure() {
+            state.enemies.add(new Enemy({stage: stage, x: 450, y: 150}));
+        }
+    },
+    {
+        time: 1000,
+        procedure() {
+            state.enemies.add(new Enemy({stage: stage, x: 450, y: 150}));
+        }
+    },
+];
 
 function animate() {
     requestAnimationFrame(animate);
@@ -119,6 +137,12 @@ function animate() {
     }
 
     checkForCollisions();
+
+    let currentTime = new Date().getTime() - state.startTime;
+    while (eventQueue.length > 0 && currentTime > eventQueue[0].time) {
+        let currentEvent = eventQueue.shift();
+        currentEvent.procedure();
+    }
 
     renderer.render(stage);
 }
