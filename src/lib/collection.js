@@ -6,11 +6,13 @@ class Collection {
         this.nextId = 0;
     }
 
-    add(item) {
-        item.id = this.nextId;
-        item.collection = this;
-        this.data[this.nextId] = item;
-        this.nextId++;
+    add(...items) {
+        items.forEach((item) => {
+            item.id = this.nextId;
+            item.collection = this;
+            this.data[this.nextId] = item;
+            this.nextId++;
+        });
     }
 
     each(callback) {
