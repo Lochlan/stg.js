@@ -1,4 +1,7 @@
-all: js/main.js
+all: assets/bundle.js
+
+assets/bundle.js: js/main.js
+	node_modules/.bin/browserify $< --outfile $@
 
 js/%.js: src/%.js node_modules
 	mkdir -p "$(@D)"
