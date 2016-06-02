@@ -1,3 +1,6 @@
+let _ = require('lodash');
+let PIXI = require('pixi.js');
+
 let Collection = require('./lib/collection');
 
 var CONSTS = {
