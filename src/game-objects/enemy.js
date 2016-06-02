@@ -1,5 +1,4 @@
 let PIXI = require('pixi.js');
-let CONSTS = require('../consts');
 let textures = require('../textures');
 
 class Enemy {
@@ -8,7 +7,42 @@ class Enemy {
             x: [-3, 3],
             y: [-3, 3],
         };
-        this.speed = CONSTS.GAME.ENEMY.SPEED;
+        this.moves = [
+            {x: -1, y: 1},
+            {x: -1, y: 0.9807852804},
+            {x: -1, y: 0.92387953251},
+            {x: -1, y: 0.8314696123},
+            {x: -1, y: 0.70710678118},
+            {x: -1, y: 0.55557023302},
+            {x: -1, y: 0.38268343236},
+            {x: -1, y: 0.19509032201},
+            {x: -1, y: 0},
+            {x: -1, y: -0.19509032201},
+            {x: -1, y: -0.38268343236},
+            {x: -1, y: -0.55557023302},
+            {x: -1, y: -0.70710678118},
+            {x: -1, y: -0.8314696123},
+            {x: -1, y: -0.92387953251},
+            {x: -1, y: -0.9807852804},
+            {x: -1, y: -1},
+            {x: -1, y: -0.9807852804},
+            {x: -1, y: -0.92387953251},
+            {x: -1, y: -0.8314696123},
+            {x: -1, y: -0.70710678118},
+            {x: -1, y: -0.55557023302},
+            {x: -1, y: -0.38268343236},
+            {x: -1, y: -0.19509032201},
+            {x: -1, y: 0},
+            {x: -1, y: 0.19509032201},
+            {x: -1, y: 0.38268343236},
+            {x: -1, y: 0.55557023302},
+            {x: -1, y: 0.70710678118},
+            {x: -1, y: 0.8314696123},
+            {x: -1, y: 0.92387953251},
+            {x: -1, y: 0.9807852804},
+        ];
+        this.moveIndex = 0;
+
         this.sprite = new PIXI.Sprite(textures.enemy);
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
@@ -36,7 +70,9 @@ class Enemy {
     }
 
     move() {
-        this.sprite.x -= this.speed;
+        this.sprite.x += this.moves[this.moveIndex].x;
+        this.sprite.y += this.moves[this.moveIndex].y * 8;
+        this.moveIndex = (this.moveIndex + 1) % this.moves.length;
     }
 
     remove() {

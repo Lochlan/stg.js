@@ -3,9 +3,6 @@ let CONSTS = {
         BULLET: {
             SPEED: 10,
         },
-        ENEMY: {
-            SPEED: 1,
-        },
         SCREEN: {
             HEIGHT: 300,
             WIDTH: 400,
