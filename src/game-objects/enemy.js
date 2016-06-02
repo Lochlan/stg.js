@@ -4,8 +4,8 @@ let textures = require('../textures');
 class Enemy {
     constructor({stage, x, y} = {}) {
         this.hitbox = {
-            x: [-3, 3],
-            y: [-3, 3],
+            x: [-5, 5],
+            y: [-5, 5],
         };
         this.moves = [
             {x: -1, y: 1},
