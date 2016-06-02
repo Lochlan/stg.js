@@ -6,6 +6,11 @@ let GameObject = require('./game-object');
 class Ship extends GameObject {
     constructor({stage, x=200, y=150} = {}) {
         super();
+        this.hitbox = {
+            x: [-5, 5],
+            y: [-3, 3],
+        };
+
         this.sprite = new PIXI.Sprite(textures.ship);
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;

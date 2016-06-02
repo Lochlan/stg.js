@@ -52,6 +52,13 @@ function checkForCollisions() {
             }
         });
     });
+
+    state.enemies.each(function (enemy) {
+        if (ship.collidesWith(enemy)) {
+            enemy.remove();
+            console.log('ship hit');
+        }
+    });
 }
 
 var stage = new PIXI.Container();
