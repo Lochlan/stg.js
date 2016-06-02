@@ -1,5 +1,10 @@
 all: assets/bundle.js
 
+clean:
+	rm -rfv\
+		assets/bundle.js\
+		js/\
+
 assets/bundle.js: js/main.js
 	node_modules/.bin/browserify $< --outfile $@
 
