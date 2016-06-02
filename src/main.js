@@ -1,5 +1,7 @@
 'use strict';
 
+let Collection = require('./lib/collection');
+
 var CONSTS = {
     GAME: {
         BULLET: {
@@ -24,26 +26,6 @@ var CONSTS = {
         DOWN_ARROW: 40,
     }
 };
-
-function Collection() {
-    this.data = {};
-}
-_.extend(Collection.prototype, {
-    add: function (item) {
-        item.id = this.nextId;
-        item.collection = this;
-        this.data[this.nextId] = item;
-        this.nextId++;
-    },
-    data: null,
-    each: function (callback) {
-        return _.each(this.data, callback);
-    },
-    nextId: 0,
-    remove: function (item) {
-        delete this.data[item.id];
-    },
-});
 
 var state = {
     bullets: new Collection(),

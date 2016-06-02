@@ -5,7 +5,8 @@ clean:
 		assets/bundle.js\
 		js/\
 
-assets/bundle.js: js/main.js
+JS_MODULES=$(subst src,js,$(shell find src -type f -name '*.js' ! -name main.js))
+assets/bundle.js: js/main.js $(JS_MODULES)
 	node_modules/.bin/browserify $< --outfile $@
 
 js/%.js: src/%.js node_modules
