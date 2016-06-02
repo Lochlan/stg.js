@@ -1,9 +1,11 @@
 let PIXI = require('pixi.js');
 let CONSTS = require('../consts');
 let textures = require('../textures');
+let GameObject = require('./game-object');
 
-class Ship {
+class Ship extends GameObject {
     constructor({stage, x=200, y=150} = {}) {
+        super();
         this.sprite = new PIXI.Sprite(textures.ship);
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
@@ -11,14 +13,6 @@ class Ship {
         this.sprite.position.y = y;
         this.stage = stage;
         this.stage.addChild(this.sprite);
-    }
-
-    getX() {
-        return this.sprite.x;
-    }
-
-    getY() {
-        return this.sprite.y;
     }
 
     moveDown() {

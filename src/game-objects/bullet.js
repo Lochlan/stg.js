@@ -1,9 +1,11 @@
 let PIXI = require('pixi.js');
 let CONSTS = require('../consts');
 let textures = require('../textures');
+let GameObject = require('./game-object');
 
-class Bullet {
+class Bullet extends GameObject {
     constructor({stage, x, y} = {}) {
+        super();
         this.hitbox = {
             x: [-2, 2],
             y: [-2, 2],
@@ -16,30 +18,6 @@ class Bullet {
         this.sprite.position.y = y;
         this.stage = stage;
         this.stage.addChild(this.sprite);
-    }
-
-    collidesWith(gameObject) {
-        let hitbox = this.getHitboxCoordinates();
-        let gameObjectHitbox = gameObject.getHitboxCoordinates();
-        if (hitbox.x2 >= gameObjectHitbox.x1) {
-            if (hitbox.x1 <= gameObjectHitbox.x2) {
-                if (hitbox.y2 >= gameObjectHitbox.y1) {
-                    if (hitbox.y1 <= gameObjectHitbox.y2) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    getHitboxCoordinates() {
-        return {
-            x1: this.sprite.x + this.hitbox.x[0],
-            x2: this.sprite.x + this.hitbox.x[1],
-            y1: this.sprite.y + this.hitbox.y[0],
-            y2: this.sprite.y + this.hitbox.y[1],
-        };
     }
 
     move() {
