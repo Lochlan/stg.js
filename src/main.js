@@ -1,9 +1,10 @@
-let _ = require('lodash');
 let PIXI = require('pixi.js');
 
 let Collection = require('./lib/collection');
 let CONSTS = require('./consts');
-let textures = require('./textures');
+let Bullet = require('./game-objects/bullet');
+let Enemy = require('./game-objects/enemy');
+let Ship = require('./game-objects/ship');
 
 var state = {
     bullets: new Collection(),
@@ -16,74 +17,6 @@ var state = {
         shoot: false,
     }
 };
-
-function Ship({stage, x=200, y=150} = {}) {
-    this.sprite = new PIXI.Sprite(textures.ship);
-    this.sprite.anchor.x = 0.5;
-    this.sprite.anchor.y = 0.5;
-    this.sprite.position.x = x;
-    this.sprite.position.y = y;
-    this.stage = stage;
-    this.stage.addChild(this.sprite);
-}
-_.extend(Ship.prototype, {
-    getX: function () {
-        return this.sprite.x;
-    },
-    getY: function () {
-        return this.sprite.y;
-    },
-    moveDown: function () {
-        this.sprite.y += CONSTS.GAME.SHIP.SPEED;
-    },
-    moveLeft: function () {
-        this.sprite.x -= CONSTS.GAME.SHIP.SPEED;
-    },
-    moveRight: function () {
-        this.sprite.x += CONSTS.GAME.SHIP.SPEED;
-    },
-    moveUp: function () {
-        this.sprite.y -= CONSTS.GAME.SHIP.SPEED;
-    },
-});
-
-function Bullet({stage, x, y} = {}) {
-    this.speed = CONSTS.GAME.BULLET.SPEED
-    this.sprite = new PIXI.Sprite(textures.bullet);
-    this.sprite.anchor.x = 0.5;
-    this.sprite.anchor.y = 0.5;
-    this.sprite.position.x = x;
-    this.sprite.position.y = y;
-    this.stage = stage; 
-    this.stage.addChild(this.sprite);
-}
-_.extend(Bullet.prototype, {
-    getHitboxCoordinates: function () {
-        return {
-            x1: this.sprite.x + this.hitbox.x[0],
-            x2: this.sprite.x + this.hitbox.x[1],
-            y1: this.sprite.y + this.hitbox.y[0],
-            y2: this.sprite.y + this.hitbox.y[1],
-        }
-    },
-    hitbox: {
-        x: [-2, 2],
-        y: [-2, 2],
-    },
-    id: null,
-    move: function () {
-        this.sprite.x += this.speed;
-    },
-    remove: function () {
-        this.stage.removeChild(this.sprite);
-        this.collection.remove(this);
-    },
-    removeIfDead: function (index) {
-        if (this.sprite.x > CONSTS.GAME.SCREEN.WIDTH) {
-            this.remove();
-        }
-    },
-});
 
 function fireBullet(ship, stage) {
     state.bullets.add(
@@ -102,50 +35,6 @@ function moveBullets() {
         bullet.removeIfDead();
     });
 }
-
-function Enemy({stage, x, y} = {}) {
-    this.speed = CONSTS.GAME.ENEMY.SPEED;
-    this.sprite = new PIXI.Sprite(textures.enemy);
-    this.sprite.anchor.x = 0.5;
-    this.sprite.anchor.y = 0.5;
-    this.sprite.position.x = x;
-    this.sprite.position.y = y;
-    this.stage = stage;
-    this.stage.addChild(this.sprite);
-}
-_.extend(Enemy.prototype, {
-    getHitboxCoordinates: function () {
-        return {
-            x1: this.sprite.x + this.hitbox.x[0],
-            x2: this.sprite.x + this.hitbox.x[1],
-            y1: this.sprite.y + this.hitbox.y[0],
-            y2: this.sprite.y + this.hitbox.y[1],
-        }
-    },
-    getX: function () {
-        return this.sprite.x;
-    },
-    getY: function () {
-        return this.sprite.y;
-    },
-    hitbox: {
-        x: [-3, 3],
-        y: [-3, 3],
-    },
-    id: null,
-    move: function () {
-        this.sprite.x -= this.speed;
-    },
-    remove: function () {
-        this.stage.removeChild(this.sprite);
-        this.collection.remove(this);
-    },
-    removeIfDead: function () {
-        if (this.sprite.x < 0) {
-            this.remove();
-        }
-    },
-});
 
 function moveEnemies() {
     state.enemies.each(function (enemy) {
