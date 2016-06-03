@@ -5,7 +5,7 @@ let GameObject = require('./game-object');
 
 class Ship extends GameObject {
     constructor({stage, x=200, y=150} = {}) {
-        super();
+        super(...arguments);
         this.hitbox = {
             x: [-5, 5],
             y: [-3, 3],

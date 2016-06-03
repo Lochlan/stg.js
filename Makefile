@@ -5,6 +5,9 @@ clean:
 		assets/bundle.js\
 		js/\
 
+test: node_modules
+	node_modules/.bin/karma start
+
 JS_MODULES=$(subst src,js,$(shell find src -type f -name '*.js' ! -name main.js))
 assets/bundle.js: js/main.js $(JS_MODULES)
 	node_modules/.bin/browserify $< --outfile $@

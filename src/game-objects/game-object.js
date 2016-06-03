@@ -1,4 +1,10 @@
 class GameObject {
+    constructor({stage} = {}) {
+        if (!stage) {
+            throw new Error('stage required');
+        }
+    }
+
     collidesWith(gameObject) {
         let hitbox = this.getHitboxCoordinates();
         let gameObjectHitbox = gameObject.getHitboxCoordinates();
