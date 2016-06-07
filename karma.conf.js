@@ -9,6 +9,7 @@ module.exports = function(config) {
     ],
 
     exclude: [
+      'src/main.js',
     ],
 
     preprocessors: {
