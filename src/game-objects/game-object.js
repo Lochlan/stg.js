@@ -43,11 +43,5 @@ class GameObject {
             this.collection.remove(this);
         }
     }
-
-    removeIfDead() {
-        if (this.sprite.x > CONSTS.GAME.SCREEN.WIDTH) {
-            this.remove();
-        }
-    }
 }
 module.exports = GameObject;
