@@ -46,7 +46,7 @@ describe('Collection', function () {
             collection.add(item);
         });
 
-        it('places the item in its data object', function () {
+        it('should place the item in its data object', function () {
             expect(collection.data[item.id]).toEqual(item);
         });
     });
@@ -60,7 +60,7 @@ describe('Collection', function () {
             collection.remove(item);
         });
 
-        it('places the item in its data object', function () {
+        it('should place the item in its data object', function () {
             expect(collection.data[item.id]).toBeUndefined();
 
         });
