@@ -41,5 +41,13 @@ module.exports = function(config) {
         'babelify',
       ]
     },
+
+    coverageReporter: {
+      dir: 'coverage',
+      reporters: [
+        {type: 'html', subdir: 'html'},
+        {type: 'lcov', subdir: 'lcov'},
+      ]
+    }
   })
 }
