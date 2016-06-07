@@ -5,5 +5,7 @@ install:
 - travis_retry npm install
 script:
 - npm test
+after_script:
+- cat coverage/lcov/lcov.info | ./node_modules/.bin/coveralls
 notifications:
   email: false

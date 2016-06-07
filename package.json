@@ -12,6 +12,7 @@
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "browserify-istanbul": "^2.0.0",
+    "coveralls": "^2.11.9",
     "isparta": "^4.0.0",
     "istanbul": "^0.4.3",
     "jasmine-core": "^2.4.1",
