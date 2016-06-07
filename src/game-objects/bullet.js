@@ -22,6 +22,7 @@ class Bullet extends GameObject {
 
     move() {
         this.sprite.x += this.speed;
+        this.removeIfDead();
     }
 
     removeIfDead() {

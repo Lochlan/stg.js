@@ -58,6 +58,7 @@ class Enemy extends GameObject {
         this.sprite.x += this.moves[this.moveIndex].x;
         this.sprite.y += this.moves[this.moveIndex].y * 8;
         this.moveIndex = (this.moveIndex + 1) % this.moves.length;
+        this.removeIfDead();
     }
 
     removeIfDead() {

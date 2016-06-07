@@ -30,17 +30,9 @@ function fireBullet(ship, stage) {
     state.input.shoot = false;
 }
 
-function moveBullets() {
-    state.bullets.each(function (bullet) {
-        bullet.move();
-        bullet.removeIfDead();
-    });
-}
-
-function moveEnemies() {
-    state.enemies.each(function (enemy) {
-        enemy.move();
-        enemy.removeIfDead();
+function moveGameObjects(gameObjects) {
+    gameObjects.each(function (gameObject) {
+        gameObject.move();
     });
 }
 
@@ -116,8 +108,8 @@ let eventQueue = [
 function animate() {
     requestAnimationFrame(animate);
 
-    moveBullets();
-    moveEnemies();
+    moveGameObjects(state.bullets);
+    moveGameObjects(state.enemies);
 
     if (state.input.left) {
         ship.moveLeft();
