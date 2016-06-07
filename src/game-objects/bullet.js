@@ -24,11 +24,6 @@ class Bullet extends GameObject {
         this.sprite.x += this.speed;
     }
 
-    remove() {
-        this.stage.removeChild(this.sprite);
-        this.collection.remove(this);
-    }
-
     removeIfDead() {
         if (this.sprite.x > CONSTS.GAME.SCREEN.WIDTH) {
             this.remove();

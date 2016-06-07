@@ -1,6 +1,7 @@
 let Ship = require('./ship');
 
 let PIXI = require('pixi.js');
+let Enemy = require('./enemy');
 
 describe('Ship', function () {
     let ship;
@@ -68,6 +69,46 @@ describe('Ship', function () {
 
         it('should increase the value of sprite.x', function () {
             expect(ship.sprite.x).toBeGreaterThan(spriteX);
+        });
+    });
+
+    describe('when not occupying the same space as another game object', function () {
+        let enemy;
+
+        beforeEach(function () {
+            enemy = new Enemy({
+                stage: stage,
+                x: ship.getX() + 1000, // arbitrary non-colliding distance, far away
+                y: ship.getY(),
+            });
+        });
+
+        afterEach(function () {
+            enemy.remove();
+        });
+
+        it('is not considered to have collided with that object', function () {
+            expect(ship.collidesWith(enemy)).toEqual(false);
+        });
+    });
+
+    describe('when occupying the same space as another game object', function () {
+        let enemy;
+
+        beforeEach(function () {
+            enemy = new Enemy({
+                stage: stage,
+                x: ship.getX(),
+                y: ship.getY(),
+            });
+        });
+
+        afterEach(function () {
+            enemy.remove();
+        });
+
+        it('is considered to have collided with that object', function () {
+            expect(ship.collidesWith(enemy)).toEqual(true);
         });
     });
 });

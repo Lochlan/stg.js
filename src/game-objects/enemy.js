@@ -60,11 +60,6 @@ class Enemy extends GameObject {
         this.moveIndex = (this.moveIndex + 1) % this.moves.length;
     }
 
-    remove() {
-        this.stage.removeChild(this.sprite);
-        this.collection.remove(this);
-    }
-
     removeIfDead() {
         if (this.sprite.x < 0) {
             this.remove();
