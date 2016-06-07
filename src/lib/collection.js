@@ -1,9 +1,10 @@
 let _ = require('lodash');
 
 class Collection {
-    constructor() {
+    constructor(...items) {
         this.data = {};
         this.nextId = 0;
+        this.add(...items);
     }
 
     add(...items) {
