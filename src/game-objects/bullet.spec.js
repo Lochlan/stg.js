@@ -18,4 +18,20 @@ describe('Bullet', function () {
     it('should instantiate', function () {
         expect(bullet).toBeDefined();
     });
+
+    describe('when moving', function () {
+        let spriteX, spriteY;
+
+        beforeEach(function () {
+            spriteX = bullet.sprite.x;
+            spriteY = bullet.sprite.y;
+            bullet.move();
+        });
+
+        it('should change the sprite\'s x or y position', function () {
+            expect(
+                (bullet.sprite.x !== spriteX) || (bullet.sprite.y !== spriteY)
+            ).toBe(true);
+        });
+    });
 });
