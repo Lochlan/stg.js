@@ -1,6 +1,5 @@
 let Game = require('./game');
 
-let Enemy = require('./game-objects/enemy');
 let GameObjects = require('./game-objects/game-objects');
 
 describe('Game', function () {
@@ -19,13 +18,8 @@ describe('Game', function () {
             let enemy;
 
             beforeEach(function () {
-                enemy = new Enemy({
-                    stage: game.stage,
-                    x: game.ship.getX(),
-                    y: game.ship.getY(),
-                });
+                enemy = game.createEnemy({x: game.ship.getX(), y: game.ship.getY()});
                 spyOn(enemy, 'remove');
-                game.state.enemies.add(enemy);
                 game.checkForCollisions();
             });
 
@@ -43,12 +37,7 @@ describe('Game', function () {
                 bullet = game.state.bullets.data[0];
                 spyOn(bullet, 'remove');
 
-                enemy = new Enemy({
-                    stage: game.stage,
-                    x: game.ship.getX(),
-                    y: game.ship.getY(),
-                });
-                game.state.enemies.add(enemy);
+                enemy = game.createEnemy({x: game.ship.getX(), y: game.ship.getY()});
                 spyOn(enemy, 'remove');
 
                 // move ship out of the way
@@ -63,6 +52,18 @@ describe('Game', function () {
                 expect(enemy.remove).toHaveBeenCalled();
             });
         });
+    });
+
+    describe('when creating an enemy', function () {
+        let enemy;
+
+        beforeEach(function () {
+            enemy = game.createEnemy({x: 100, y: 100});
+        });
+
+        it('should add the enemy to the game state', function () {
+            expect(game.state.enemies.data[0]).toEqual(enemy);
+        })
     });
 
     describe('when firing a bullet', function () {

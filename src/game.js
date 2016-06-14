@@ -11,37 +11,37 @@ let eventQueue = [
     {
         time: 0,
         procedure() {
-            this.state.enemies.add(new Enemy({stage: this.stage, x: 450, y: 150}));
+            this.createEnemy({x: 450, y: 150});
         }
     },
     {
         time: 200,
         procedure() {
-            this.state.enemies.add(new Enemy({stage: this.stage, x: 450, y: 150}));
+            this.createEnemy({x: 450, y: 150});
         }
     },
     {
         time: 400,
         procedure() {
-            this.state.enemies.add(new Enemy({stage: this.stage, x: 450, y: 150}));
+            this.createEnemy({x: 450, y: 150});
         }
     },
     {
         time: 600,
         procedure() {
-            this.state.enemies.add(new Enemy({stage: this.stage, x: 450, y: 150}));
+            this.createEnemy({x: 450, y: 150});
         }
     },
     {
         time: 800,
         procedure() {
-            this.state.enemies.add(new Enemy({stage: this.stage, x: 450, y: 150}));
+            this.createEnemy({x: 450, y: 150});
         }
     },
     {
         time: 1000,
         procedure() {
-            this.state.enemies.add(new Enemy({stage: this.stage, x: 450, y: 150}));
+            this.createEnemy({x: 450, y: 150});
         }
     },
 ];
@@ -149,6 +149,12 @@ class Game {
             enemy.remove();
             console.log('ship hit');
         });
+    }
+
+    createEnemy({x, y} = {}) {
+        let enemy = new Enemy({stage: this.stage, x: x, y: y});
+        this.state.enemies.add(enemy);
+        return enemy;
     }
 
     fireBullet() {
