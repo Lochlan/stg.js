@@ -1,6 +1,6 @@
 let PIXI = require('pixi.js');
 
-let Collection = require('./lib/collection');
+let GameObjects = require('./game-objects/game-objects');
 let CONSTS = require('./consts');
 let Bullet = require('./game-objects/bullet');
 let Enemy = require('./game-objects/enemy');
@@ -49,8 +49,8 @@ let eventQueue = [
 class Game {
     constructor() {
         this.state = {
-            bullets: new Collection(),
-            enemies: new Collection(),
+            bullets: new GameObjects(),
+            enemies: new GameObjects(),
             input: {
                 left: false,
                 up: false,
@@ -137,21 +137,18 @@ class Game {
     }
 
     checkForCollisions() {
-        this.state.bullets.each(function (bullet) {
-            this.state.enemies.each(function (enemy) {
-                if (bullet.collidesWith(enemy)) {
-                    enemy.remove();
-                    bullet.remove();
-                }
-            });
-        }.bind(this));
-
-        this.state.enemies.each(function (enemy) {
-            if (this.ship.collidesWith(enemy)) {
+        this.state.bullets.ifCollidingWithCollection(
+            this.state.enemies,
+            function (bullet, enemy) {
+                bullet.remove();
                 enemy.remove();
-                console.log('ship hit');
             }
-        }.bind(this));
+        );
+
+        this.state.enemies.ifCollidingWith(this.ship, function (enemy) {
+            enemy.remove();
+            console.log('ship hit');
+        });
     }
 
     fireBullet() {
