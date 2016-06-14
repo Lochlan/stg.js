@@ -158,14 +158,14 @@ class Game {
     }
 
     fireBullet() {
-        this.state.bullets.add(
-            new Bullet({
-                stage: this.stage,
-                x: this.ship.getX(),
-                y: this.ship.getY()
-            })
-        );
+        let bullet = new Bullet({
+            stage: this.stage,
+            x: this.ship.getX(),
+            y: this.ship.getY()
+        });
+        this.state.bullets.add(bullet);
         this.state.input.shoot = false;
+        return bullet;
     }
 
     moveGameObjects(gameObjects) {

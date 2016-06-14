@@ -33,8 +33,7 @@ describe('Game', function () {
             let enemy;
 
             beforeEach(function () {
-                game.fireBullet(); // created at ship's position
-                bullet = game.state.bullets.data[0];
+                bullet = game.fireBullet(); // created at ship's position
                 spyOn(bullet, 'remove');
 
                 enemy = game.createEnemy({x: game.ship.getX(), y: game.ship.getY()});
@@ -67,12 +66,14 @@ describe('Game', function () {
     });
 
     describe('when firing a bullet', function () {
+        let bullet;
+
         beforeEach(function () {
-            game.fireBullet();
+            bullet = game.fireBullet();
         });
 
         it('should add a bullet to the game state', function () {
-            expect(game.state.bullets.data[0]).toBeDefined();
+            expect(game.state.bullets.data[0]).toEqual(bullet);
         });
     });
 
