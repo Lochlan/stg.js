@@ -21,19 +21,27 @@ class Ship extends GameObject {
     }
 
     moveDown() {
-        this.sprite.y += CONSTS.GAME.SHIP.SPEED;
+        if (this.sprite.y < CONSTS.GAME.SCREEN.HEIGHT) {
+            this.sprite.y += CONSTS.GAME.SHIP.SPEED;
+        }
     }
 
     moveLeft() {
-        this.sprite.x -= CONSTS.GAME.SHIP.SPEED;
+        if (this.sprite.x > 0) {
+            this.sprite.x -= CONSTS.GAME.SHIP.SPEED;
+        }
     }
 
     moveRight() {
-        this.sprite.x += CONSTS.GAME.SHIP.SPEED;
+        if (this.sprite.x < CONSTS.GAME.SCREEN.WIDTH) {
+            this.sprite.x += CONSTS.GAME.SHIP.SPEED;
+        }
     }
 
     moveUp() {
-        this.sprite.y -= CONSTS.GAME.SHIP.SPEED;
+        if (this.sprite.y > 0) {
+            this.sprite.y -= CONSTS.GAME.SHIP.SPEED;
+        }
     }
 }
 module.exports = Ship;
