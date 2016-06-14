@@ -66,6 +66,7 @@ class Game {
             backgroundColor: 0x000000
         });
         this.ship = new Ship({stage: this.stage});
+        this.eventQueue = eventQueue;
 
         document.body.appendChild(this.renderer.view);
 
@@ -107,33 +108,10 @@ class Game {
 
         this.moveGameObjects(this.state.bullets);
         this.moveGameObjects(this.state.enemies);
-
-        if (this.state.input.left) {
-            this.ship.moveLeft();
-        }
-        if (this.state.input.up) {
-            this.ship.moveUp();
-        }
-        if (this.state.input.right) {
-            this.ship.moveRight();
-        }
-        if (this.state.input.down) {
-            this.ship.moveDown();
-        }
-
-        if (this.state.input.shoot) {
-            this.fireBullet();
-        }
-
+        this.handleInput();
         this.checkForCollisions();
-
-        let currentTime = new Date().getTime() - this.state.startTime;
-        while (eventQueue.length > 0 && currentTime > eventQueue[0].time) {
-            let currentEvent = eventQueue.shift();
-            currentEvent.procedure.apply(this);
-        }
-
-        this.renderer.render(this.stage);
+        this.processEventQueue();
+        this.render();
     }
 
     checkForCollisions() {
@@ -164,14 +142,45 @@ class Game {
             y: this.ship.getY()
         });
         this.state.bullets.add(bullet);
-        this.state.input.shoot = false;
         return bullet;
+    }
+
+    handleInput() {
+        if (this.state.input.left) {
+            this.ship.moveLeft();
+        }
+        if (this.state.input.up) {
+            this.ship.moveUp();
+        }
+        if (this.state.input.right) {
+            this.ship.moveRight();
+        }
+        if (this.state.input.down) {
+            this.ship.moveDown();
+        }
+
+        if (this.state.input.shoot) {
+            this.fireBullet();
+            this.state.input.shoot = false;
+        }
     }
 
     moveGameObjects(gameObjects) {
         gameObjects.each(function (gameObject) {
             gameObject.move();
         });
+    }
+
+    processEventQueue() {
+        let currentTime = new Date().getTime() - this.state.startTime;
+        while (this.eventQueue.length > 0 && currentTime > this.eventQueue[0].time) {
+            let currentEvent = this.eventQueue.shift();
+            currentEvent.procedure.apply(this);
+        }
+    }
+
+    render() {
+        this.renderer.render(this.stage);
     }
 }
 
