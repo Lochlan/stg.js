@@ -27,7 +27,7 @@ class Game {
             backgroundColor: 0x000000
         });
         this.ship = new Ship({stage: this.stage});
-        this.eventQueue = eventQueue;
+        this.eventQueue = eventQueue.slice(); // don't modify original
 
         document.body.appendChild(this.renderer.view);
 
