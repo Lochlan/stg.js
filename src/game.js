@@ -134,7 +134,7 @@ class Game {
 
     processEventQueue() {
         let currentTime = new Date().getTime() - this.state.startTime;
-        while (this.eventQueue.length > 0 && currentTime > this.eventQueue[0].time) {
+        while (this.eventQueue.length > 0 && currentTime >= this.eventQueue[0].time) {
             let currentEvent = this.eventQueue.shift();
             currentEvent.procedure.apply(this);
         }
