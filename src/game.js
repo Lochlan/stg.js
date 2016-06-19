@@ -5,46 +5,7 @@ let CONSTS = require('./consts');
 let Bullet = require('./game-objects/bullet');
 let Enemy = require('./game-objects/enemy');
 let Ship = require('./game-objects/ship');
-
-
-let eventQueue = [
-    {
-        time: 0,
-        procedure() {
-            this.createEnemy({x: 450, y: 150});
-        }
-    },
-    {
-        time: 200,
-        procedure() {
-            this.createEnemy({x: 450, y: 150});
-        }
-    },
-    {
-        time: 400,
-        procedure() {
-            this.createEnemy({x: 450, y: 150});
-        }
-    },
-    {
-        time: 600,
-        procedure() {
-            this.createEnemy({x: 450, y: 150});
-        }
-    },
-    {
-        time: 800,
-        procedure() {
-            this.createEnemy({x: 450, y: 150});
-        }
-    },
-    {
-        time: 1000,
-        procedure() {
-            this.createEnemy({x: 450, y: 150});
-        }
-    },
-];
+let eventQueue = require('./event-queue');
 
 class Game {
     constructor() {
