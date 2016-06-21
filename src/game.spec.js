@@ -6,7 +6,7 @@ describe('Game', function () {
     let game;
 
     beforeEach(function () {
-        game = new Game();
+        game = new Game({eventQueue: []});
     });
 
     it('should instantiate', function () {
@@ -169,8 +169,11 @@ describe('Game', function () {
             let processedEvent;
 
             beforeEach(function () {
-                processedEvent = game.eventQueue[0];
-                spyOn(processedEvent, 'procedure');
+                processedEvent = {
+                    time: 0,
+                    procedure: jasmine.createSpy('procedure'),
+                };
+                game.eventQueue = [processedEvent];
                 game.processEventQueue();
             });
 

@@ -5,10 +5,9 @@ let CONSTS = require('./consts');
 let Bullet = require('./game-objects/bullet');
 let Enemy = require('./game-objects/enemy');
 let Ship = require('./game-objects/ship');
-let eventQueue = require('./event-queue');
 
 class Game {
-    constructor() {
+    constructor({eventQueue} = {}) {
         this.state = {
             bullets: new GameObjects(),
             enemies: new GameObjects(),
