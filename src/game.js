@@ -72,7 +72,7 @@ class Game {
     }
 
     animate() {
-        requestAnimationFrame(this.animate.bind(this));
+        requestAnimationFrame(this.animate);
 
         this.state.bullets.move()
         this.state.enemies.move()
@@ -184,6 +184,7 @@ class Game {
         [
             'addInputListenersKeydownCallback',
             'addInputListenersKeyupCallback',
+            'animate',
         ].forEach((methodName) => {
             this[methodName] = this[methodName].bind(this);
         });
