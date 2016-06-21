@@ -51,6 +51,18 @@ describe('Game', function () {
                 expect(enemy.remove).toHaveBeenCalled();
             });
         });
+
+        describe('when there is no ship', function () {
+            let enemy;
+
+            beforeEach(function () {
+                delete game.ship;
+            });
+
+            it('should not throw an error', function () {
+                expect(game.checkForCollisions.bind(game)).not.toThrow();
+            });
+        });
     });
 
     describe('when creating an enemy', function () {
@@ -76,6 +88,17 @@ describe('Game', function () {
             expect(game.state.bullets.data[0]).toEqual(bullet);
         });
     });
+
+    describe('when there is a game over', function () {
+        beforeEach(function () {
+            spyOn(game, 'removeInputListeners').and.callThrough();
+            game.gameOver();
+        });
+
+        it('should remove event listeners', function () {
+            expect(game.removeInputListeners).toHaveBeenCalled();
+        });
+    })
 
     describe('when handling input', function () {
         describe('when left input is active', function () {
@@ -139,6 +162,32 @@ describe('Game', function () {
 
             it('should set shoot input to inactive', function () {
                 expect(game.state.input.shoot).toEqual(false);
+            });
+        });
+    });
+
+    describe('when handling a ship collision', function () {
+        describe('when there are extra lives', function () {
+            beforeEach(function () {
+                game.state.player.lives = 2;
+                spyOn(game, 'createShip').and.callThrough();
+                game.handleShipCollision();
+            });
+
+            it('should create a new ship', function () {
+                expect(game.createShip).toHaveBeenCalled();
+            });
+        });
+
+        describe('when there are no extra lives', function () {
+            beforeEach(function () {
+                game.state.player.lives = 1;
+                spyOn(game, 'gameOver').and.callThrough();
+                game.handleShipCollision();
+            });
+
+            it('should game over', function () {
+                expect(game.gameOver).toHaveBeenCalled();
             });
         });
     });

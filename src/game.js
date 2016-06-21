@@ -18,49 +18,56 @@ class Game {
                 down: false,
                 shoot: false,
             },
+            player: {
+                lives: 3,
+            },
             startTime: new Date().getTime(),
         };
+        this.eventQueue = eventQueue.slice(); // don't modify original
 
         this.stage = new PIXI.Container();
         this.renderer = PIXI.autoDetectRenderer(CONSTS.GAME.SCREEN.WIDTH, CONSTS.GAME.SCREEN.HEIGHT, {
             backgroundColor: 0x000000
         });
-        this.ship = new Ship({stage: this.stage});
-        this.eventQueue = eventQueue.slice(); // don't modify original
-
         document.body.appendChild(this.renderer.view);
 
+        this.setPermanentMethodBindings();
         this.addInputListeners();
+
+        this.createShip();
     }
 
     addInputListeners() {
-        document.addEventListener('keydown', function (event) {
-            if (event.keyCode == CONSTS.KEYS.LEFT_ARROW) {
-                this.state.input.left = true;
-            } else if (event.keyCode == CONSTS.KEYS.UP_ARROW) {
-                this.state.input.up = true;
-            } else if (event.keyCode == CONSTS.KEYS.RIGHT_ARROW) {
-                this.state.input.right = true;
-            } else if (event.keyCode == CONSTS.KEYS.DOWN_ARROW) {
-                this.state.input.down = true;
-            } else if (event.keyCode == CONSTS.KEYS.SPACE_BAR) {
-                this.state.input.shoot = true;
-            }
-        }.bind(this));
+        document.addEventListener('keydown', this.addInputListenersKeydownCallback);
+        document.addEventListener('keyup', this.addInputListenersKeyupCallback);
+    }
 
-        document.addEventListener('keyup', function (event) {
-            if (event.keyCode == CONSTS.KEYS.LEFT_ARROW) {
-                this.state.input.left = false;
-            } else if (event.keyCode == CONSTS.KEYS.UP_ARROW) {
-                this.state.input.up = false;
-            } else if (event.keyCode == CONSTS.KEYS.RIGHT_ARROW) {
-                this.state.input.right = false;
-            } else if (event.keyCode == CONSTS.KEYS.DOWN_ARROW) {
-                this.state.input.down = false;
-            } else if (event.keyCode == CONSTS.KEYS.SPACE_BAR) {
-                this.state.input.shoot = false;
-            }
-        }.bind(this));
+    addInputListenersKeydownCallback(event) {
+        if (event.keyCode == CONSTS.KEYS.LEFT_ARROW) {
+            this.state.input.left = true;
+        } else if (event.keyCode == CONSTS.KEYS.UP_ARROW) {
+            this.state.input.up = true;
+        } else if (event.keyCode == CONSTS.KEYS.RIGHT_ARROW) {
+            this.state.input.right = true;
+        } else if (event.keyCode == CONSTS.KEYS.DOWN_ARROW) {
+            this.state.input.down = true;
+        } else if (event.keyCode == CONSTS.KEYS.SPACE_BAR) {
+            this.state.input.shoot = true;
+        }
+    }
+
+    addInputListenersKeyupCallback(event) {
+        if (event.keyCode == CONSTS.KEYS.LEFT_ARROW) {
+            this.state.input.left = false;
+        } else if (event.keyCode == CONSTS.KEYS.UP_ARROW) {
+            this.state.input.up = false;
+        } else if (event.keyCode == CONSTS.KEYS.RIGHT_ARROW) {
+            this.state.input.right = false;
+        } else if (event.keyCode == CONSTS.KEYS.DOWN_ARROW) {
+            this.state.input.down = false;
+        } else if (event.keyCode == CONSTS.KEYS.SPACE_BAR) {
+            this.state.input.shoot = false;
+        }
     }
 
     animate() {
@@ -83,16 +90,22 @@ class Game {
             }
         );
 
-        this.state.enemies.ifCollidingWith(this.ship, function (enemy) {
-            enemy.remove();
-            console.log('ship hit');
-        });
+        if (this.ship) {
+            this.state.enemies.ifCollidingWith(this.ship, (enemy) => {
+                enemy.remove();
+                this.handleShipCollision();
+            });
+        }
     }
 
     createEnemy({x, y} = {}) {
         let enemy = new Enemy({stage: this.stage, x: x, y: y});
         this.state.enemies.add(enemy);
         return enemy;
+    }
+
+    createShip() {
+        this.ship = new Ship({stage: this.stage});
     }
 
     fireBullet() {
@@ -105,7 +118,16 @@ class Game {
         return bullet;
     }
 
+    gameOver() {
+        this.removeInputListeners();
+        console.log('game over');
+    }
+
     handleInput() {
+        if (!this.ship) {
+            return;
+        }
+
         if (this.state.input.left) {
             this.ship.moveLeft();
         }
@@ -125,12 +147,39 @@ class Game {
         }
     }
 
+    handleShipCollision() {
+        this.ship.remove();
+        delete this.ship;
+        this.state.player.lives -= 1;
+
+        if (this.state.player.lives === 0) {
+            this.gameOver();
+            return;
+        }
+
+        this.createShip();
+    }
+
     processEventQueue() {
         let currentTime = new Date().getTime() - this.state.startTime;
         while (this.eventQueue.length > 0 && currentTime >= this.eventQueue[0].time) {
             let currentEvent = this.eventQueue.shift();
             currentEvent.procedure.apply(this);
         }
+    }
+
+    removeInputListeners() {
+        document.removeEventListener('keydown', this.addInputListenersKeydownCallback);
+        document.removeEventListener('keyup', this.addInputListenersKeyupCallback);
+    }
+
+    setPermanentMethodBindings() {
+        [
+            'addInputListenersKeydownCallback',
+            'addInputListenersKeyupCallback',
+        ].forEach((methodName) => {
+            this[methodName] = this[methodName].bind(this);
+        });
     }
 
     render() {
