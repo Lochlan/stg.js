@@ -34,6 +34,7 @@ class Game {
         this.setPermanentMethodBindings();
         this.addInputListeners();
 
+        this.createLivesDisplay();
         this.createShip();
     }
 
@@ -104,6 +105,11 @@ class Game {
         return enemy;
     }
 
+    createLivesDisplay() {
+        this.livesText = new PIXI.Text(`LIVES: ${this.state.player.lives}`, {font:'10px Arial', fill:'white'});
+        this.stage.addChild(this.livesText);
+    }
+
     createShip() {
         this.ship = new Ship({stage: this.stage});
     }
@@ -151,6 +157,7 @@ class Game {
         this.ship.remove();
         delete this.ship;
         this.state.player.lives -= 1;
+        this.updateLivesDisplay();
 
         if (this.state.player.lives === 0) {
             this.gameOver();
@@ -180,6 +187,10 @@ class Game {
         ].forEach((methodName) => {
             this[methodName] = this[methodName].bind(this);
         });
+    }
+
+    updateLivesDisplay() {
+        this.livesText.text = `LIVES: ${this.state.player.lives}`;
     }
 
     render() {
