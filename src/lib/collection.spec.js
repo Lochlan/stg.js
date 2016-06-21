@@ -52,11 +52,9 @@ describe('Collection', function () {
     });
 
     describe('when iterating through data with the each method', function () {
-        let item;
         let count;
 
         beforeEach(function () {
-            item = {name: 'foo'};
             collection.add({name: 'foo'}, {name: 'bar'}, {name: 'baz'});
             count = 0;
             collection.each(function (item) { count++; });
