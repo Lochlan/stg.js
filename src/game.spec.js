@@ -1,5 +1,6 @@
 let Game = require('./game');
 
+let Enemy = require('./game-objects/enemies/enemy');
 let GameObjects = require('./game-objects/game-objects');
 
 describe('Game', function () {
@@ -18,7 +19,13 @@ describe('Game', function () {
             let enemy;
 
             beforeEach(function () {
-                enemy = game.createEnemy({x: game.ship.getX(), y: game.ship.getY()});
+                enemy = game.createEnemy(
+                    new Enemy({
+                        stage: game.stage,
+                        x: game.ship.getX(),
+                        y: game.ship.getY(),
+                    })
+                );
                 spyOn(enemy, 'remove');
                 game.checkForCollisions();
             });
@@ -36,7 +43,13 @@ describe('Game', function () {
                 bullet = game.fireBullet(); // created at ship's position
                 spyOn(bullet, 'remove');
 
-                enemy = game.createEnemy({x: game.ship.getX(), y: game.ship.getY()});
+                enemy = game.createEnemy(
+                    new Enemy({
+                        stage: game.stage,
+                        x: game.ship.getX(),
+                        y: game.ship.getY(),
+                    })
+                );
                 spyOn(enemy, 'remove');
 
                 // move ship out of the way

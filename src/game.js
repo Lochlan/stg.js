@@ -3,7 +3,6 @@ let PIXI = require('pixi.js');
 let GameObjects = require('./game-objects/game-objects');
 let CONSTS = require('./consts');
 let Bullet = require('./game-objects/bullet');
-let Enemy = require('./game-objects/enemy');
 let Ship = require('./game-objects/ship');
 
 class Game {
@@ -99,8 +98,7 @@ class Game {
         }
     }
 
-    createEnemy({x, y} = {}) {
-        let enemy = new Enemy({stage: this.stage, x: x, y: y});
+    createEnemy(enemy) {
         this.state.enemies.add(enemy);
         return enemy;
     }

@@ -1,7 +1,7 @@
 let GameObjects = require('./game-objects');
 
 let PIXI = require('pixi.js');
-let Enemy = require('./enemy');
+let Enemy = require('./enemies/enemy');
 
 describe('GameObjects', function () {
     let collection;

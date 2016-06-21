@@ -1,7 +1,7 @@
 let Ship = require('./ship');
 
 let PIXI = require('pixi.js');
-let Enemy = require('./enemy');
+let Enemy = require('./enemies/enemy');
 
 describe('Ship', function () {
     let ship;

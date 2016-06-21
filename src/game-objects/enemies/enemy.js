@@ -1,6 +1,6 @@
 let PIXI = require('pixi.js');
-let textures = require('../textures');
-let GameObject = require('./game-object');
+let textures = require('../../textures');
+let GameObject = require('../game-object');
 
 class Enemy extends GameObject {
     constructor({stage, x, y} = {}) {
