@@ -51,21 +51,6 @@ describe('Collection', function () {
         });
     });
 
-    describe('when removing an item', function () {
-        let item;
-
-        beforeEach(function () {
-            item = {name: 'foo'};
-            collection.add(item);
-            collection.remove(item);
-        });
-
-        it('should place the item in its data object', function () {
-            expect(collection.data[item.id]).toBeUndefined();
-
-        });
-    });
-
     describe('when iterating through data with the each method', function () {
         let item;
         let count;
@@ -79,6 +64,21 @@ describe('Collection', function () {
 
         it('should invoke the callback once per item', function () {
             expect(count).toEqual(3);
+        });
+    });
+
+    describe('when removing an item', function () {
+        let item;
+
+        beforeEach(function () {
+            item = {name: 'foo'};
+            collection.add(item);
+            collection.remove(item);
+        });
+
+        it('should place the item in its data object', function () {
+            expect(collection.data[item.id]).toBeUndefined();
+
         });
     });
 });
