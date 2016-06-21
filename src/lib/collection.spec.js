@@ -65,6 +65,18 @@ describe('Collection', function () {
         });
     });
 
+    describe('when getting length', function () {
+        let count;
+
+        beforeEach(function () {
+            collection.add({name: 'foo'}, {name: 'bar'}, {name: 'baz'});
+        });
+
+        it('should return the correct length', function () {
+            expect(collection.length).toEqual(3);
+        });
+    });
+
     describe('when removing an item', function () {
         let item;
 

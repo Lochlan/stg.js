@@ -20,6 +20,10 @@ class Collection {
         return _.each(this.data, callback);
     }
 
+    get length() {
+        return _.size(this.data);
+    }
+
     remove(item) {
         delete this.data[item.id];
     }
