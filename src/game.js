@@ -66,8 +66,8 @@ class Game {
     animate() {
         requestAnimationFrame(this.animate.bind(this));
 
-        this.moveGameObjects(this.state.bullets);
-        this.moveGameObjects(this.state.enemies);
+        this.state.bullets.move()
+        this.state.enemies.move()
         this.handleInput();
         this.checkForCollisions();
         this.processEventQueue();
@@ -123,12 +123,6 @@ class Game {
             this.fireBullet();
             this.state.input.shoot = false;
         }
-    }
-
-    moveGameObjects(gameObjects) {
-        gameObjects.each(function (gameObject) {
-            gameObject.move();
-        });
     }
 
     processEventQueue() {

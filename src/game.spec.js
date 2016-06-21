@@ -143,27 +143,6 @@ describe('Game', function () {
         });
     });
 
-    describe('when moving game objects', function () {
-        let spies;
-
-        beforeEach(function () {
-            spies = [];
-            let gameObjects = new GameObjects();
-            for (let i=0; i<3; i++) {
-                let spy = jasmine.createSpy();
-                gameObjects.add({move: spy});
-                spies.push(spy);
-            }
-            game.moveGameObjects(gameObjects);
-        });
-
-        it('should invoke the "move" method on each game object', function () {
-            spies.forEach(function (spy) {
-                expect(spy).toHaveBeenCalled();
-            });
-        });
-    });
-
     describe('when processing the event queue', function () {
         describe('when there is an event to process', function () {
             let processedEvent;

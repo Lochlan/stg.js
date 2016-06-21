@@ -81,4 +81,19 @@ describe('GameObjects', function () {
             });
         });
     });
+
+    describe('when moving', function () {
+        beforeEach(function () {
+            collection.each(function (gameObject) {
+                spyOn(gameObject, 'move');
+            });
+            collection.move();
+        });
+
+        it('should invoke the "move" method on each game object', function () {
+            collection.each(function (gameObject) {
+                expect(gameObject.move).toHaveBeenCalled();
+            });
+        });
+    });
 });

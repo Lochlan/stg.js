@@ -37,6 +37,9 @@ class GameObject {
         return this.sprite.y;
     }
 
+    move() {
+    }
+
     remove() {
         this.stage.removeChild(this.sprite);
         if (this.collection) {

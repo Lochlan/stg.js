@@ -18,5 +18,11 @@ class GameObjects extends Collection {
             this.ifCollidingWith(otherGameObject, callback);
         }.bind(this));
     }
+
+    move() {
+        this.each(function (gameObject) {
+            gameObject.move();
+        });
+    }
 }
 module.exports = GameObjects;
