@@ -102,6 +102,22 @@ describe('Game', function () {
         });
     });
 
+    describe('when firing an enemy bullet', function () {
+        let bullet;
+
+        beforeEach(function () {
+            bullet = game.fireEnemyBullet(
+                // "bullet" can safely be any game object
+                new Enemy({stage: game.stage, x: 100, y: 100})
+            );
+        });
+
+        it('should add an enemy to the game state', function () {
+            // enemy bullets are treated in the main game loop as enemies
+            expect(game.state.enemies.data[0]).toEqual(bullet);
+        });
+    });
+
     describe('when there is a game over', function () {
         beforeEach(function () {
             spyOn(game, 'removeInputListeners').and.callThrough();

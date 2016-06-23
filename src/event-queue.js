@@ -11,13 +11,13 @@ let eventQueue = [
     {
         time: 100,
         procedure() {
-            this.createEnemy(new ShootingEnemy({stage: this.stage, x: 450, y: 50}));
+            this.createEnemy(new ShootingEnemy({stage: this.stage, x: 450, y: 50, game: this}));
         }
     },
     {
         time: 100,
         procedure() {
-            this.createEnemy(new ShootingEnemy({stage: this.stage, x: 450, y: 250}));
+            this.createEnemy(new ShootingEnemy({stage: this.stage, x: 450, y: 250, game: this}));
         }
     },
     {

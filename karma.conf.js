@@ -5,6 +5,7 @@ module.exports = function(config) {
     frameworks: ['jasmine', 'browserify'],
 
     files: [
+      'test-setup.js',
       'src/**/*.js',
     ],
 

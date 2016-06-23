@@ -122,6 +122,11 @@ class Game {
         return bullet;
     }
 
+    fireEnemyBullet(enemyBullet) {
+        this.state.enemies.add(enemyBullet);
+        return enemyBullet;
+    }
+
     gameOver() {
         this.removeInputListeners();
         console.log('game over');
