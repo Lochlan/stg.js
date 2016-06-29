@@ -71,9 +71,7 @@ class Game {
         }
     }
 
-    animate() {
-        requestAnimationFrame(this.animate);
-
+    advanceFrame() {
         this.state.bullets.move()
         this.state.enemies.move()
         this.state.enemyBullets.move();
@@ -81,6 +79,11 @@ class Game {
         this.checkForCollisions();
         this.processEventQueue();
         this.render();
+    }
+
+    animate() {
+        requestAnimationFrame(this.animate);
+        this.advanceFrame();
     }
 
     checkForCollisions() {

@@ -14,6 +14,12 @@ describe('Game', function () {
         expect(game).toBeDefined();
     });
 
+    describe('when advancing the frame', function () {
+        it('should not throw an error', function () {
+            expect(game.advanceFrame.bind(game)).not.toThrow();
+        });
+    });
+
     describe('when checking for collisions', function () {
         describe('when the ship and an enemy are colliding', function () {
             let enemy;
