@@ -1,6 +1,7 @@
-let Enemy = require('./shooting-enemy');
+let ShootingEnemy = require('./shooting-enemy');
 
 let PIXI = require('pixi.js');
+let Enemy = require('./enemy');
 
 describe('ShootingEnemy', function () {
     let enemy;
@@ -9,21 +10,23 @@ describe('ShootingEnemy', function () {
 
     beforeEach(function () {
         stage = new PIXI.Container();
+        let shipDouble = new Enemy({stage: stage});
         game = {
             fireEnemyBullet: jasmine.createSpy('fireEnemyBullet'),
+            getShip: () => shipDouble,
         };
-        enemy = new Enemy({
+        enemy = new ShootingEnemy({
             stage: stage,
             game: game,
         });
     });
 
     it('should throw an Error if instantiated without a stage', function () {
-        expect(function () { new Enemy({game: game}); }).toThrow();
+        expect(function () { new ShootingEnemy({game: game}); }).toThrow();
     });
 
     it('should throw an Error if instantiated without a game', function () {
-        expect(function () { new Enemy({stage: stage}); }).toThrow();
+        expect(function () { new ShootingEnemy({stage: stage}); }).toThrow();
     });
 
     it('should instantiate', function () {
@@ -48,11 +51,22 @@ describe('ShootingEnemy', function () {
 
     describe('when shooting', function () {
         beforeEach(function () {
+            let ship = game.getShip();
+            ship.sprite.x = 100;
+            ship.sprite.y = 100;
+            enemy.sprite.x = 0;
+            enemy.sprite.y = 0;
             enemy.shoot();
         });
 
         it('should call fireEnemyBullet', function () {
             expect(game.fireEnemyBullet).toHaveBeenCalled();
+        });
+
+        it('should fire the bullet at the player\'s ship', function () {
+            let firedBullet = game.fireEnemyBullet.calls.mostRecent().args[0];
+            expect(firedBullet.moves[0].x).toEqual(2.1213203435596424);
+            expect(firedBullet.moves[0].y).toEqual(2.121320343559643);
         });
     });
 });

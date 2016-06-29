@@ -127,7 +127,19 @@ describe('Game', function () {
         it('should remove event listeners', function () {
             expect(game.removeInputListeners).toHaveBeenCalled();
         });
-    })
+    });
+
+    describe('when getting the ship', function () {
+        let ship;
+
+        beforeEach(function () {
+            ship = game.getShip();
+        });
+
+        it('should return the game state\'s ship', function () {
+            expect(ship).toEqual(game.ship);
+        });
+    });
 
     describe('when handling input', function () {
         describe('when left input is active', function () {

@@ -20,6 +20,7 @@ class ShootingEnemy extends Enemy {
         );
         this.moveIndex = 0;
 
+        this.bulletSpeed = 3;
         this.game = game;
         this.sprite = new PIXI.Sprite(textures.shootingEnemy);
         this.sprite.anchor.x = 0.5;
@@ -49,12 +50,21 @@ class ShootingEnemy extends Enemy {
     }
 
     shoot() {
+        let ship = this.game.getShip();
+        const angleWithShip = Math.atan2(
+            this.getY() - ship.getY(),
+            this.getX() - ship.getX()
+        );
+
+        const x = -Math.cos(angleWithShip) * this.bulletSpeed;
+        const y = -Math.sin(angleWithShip) * this.bulletSpeed;
+
         this.game.fireEnemyBullet(
             new EnemyBullet({
                 stage: this.stage,
                 x: this.getX(),
                 y: this.getY(),
-                moves: [{x: -1, y: -1}],
+                moves: [{x: x, y: y}],
             })
         );
     }

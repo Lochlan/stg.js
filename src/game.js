@@ -132,6 +132,10 @@ class Game {
         console.log('game over');
     }
 
+    getShip() {
+        return this.ship;
+    }
+
     handleInput() {
         if (!this.ship) {
             return;
