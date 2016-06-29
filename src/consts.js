@@ -6,6 +6,7 @@ let CONSTS = {
         SCREEN: {
             HEIGHT: 300,
             WIDTH: 400,
+            PADDING: 40,
         },
         SHIP: {
             SPEED: 3,

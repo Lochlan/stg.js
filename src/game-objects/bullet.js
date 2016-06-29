@@ -21,14 +21,9 @@ class Bullet extends GameObject {
     }
 
     move() {
+        super.move();
         this.sprite.x += this.speed;
         this.removeIfDead();
-    }
-
-    removeIfDead() {
-        if (this.sprite.x > CONSTS.GAME.SCREEN.WIDTH) {
-            this.remove();
-        }
     }
 }
 module.exports = Bullet;

@@ -32,20 +32,10 @@ class ShootingEnemy extends Enemy {
     }
 
     move() {
-        this.sprite.x += this.moves[this.moveIndex].x;
-        this.sprite.y += this.moves[this.moveIndex].y;
+        super.move();
 
         if (this.moves[this.moveIndex].action === 'shoot') {
             this.shoot();
-        }
-
-        this.moveIndex = (this.moveIndex + 1) % this.moves.length;
-        this.removeIfDead();
-    }
-
-    removeIfDead() {
-        if (this.sprite.x < 0) {
-            this.remove();
         }
     }
 

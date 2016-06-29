@@ -23,6 +23,8 @@ describe('Bullet', function () {
         let spriteX, spriteY;
 
         beforeEach(function () {
+            bullet.sprite.x = 100;
+            bullet.sprite.y = 100;
             spriteX = bullet.sprite.x;
             spriteY = bullet.sprite.y;
             bullet.move();
@@ -32,6 +34,18 @@ describe('Bullet', function () {
             expect(
                 (bullet.sprite.x !== spriteX) || (bullet.sprite.y !== spriteY)
             ).toBe(true);
+        });
+
+        describe('when off-screen', function () {
+            beforeEach(function () {
+                bullet.sprite.x = 10000;
+                spyOn(bullet, 'remove');
+                bullet.move();
+            });
+
+            it('should be removed', function () {
+                expect(bullet.remove).toHaveBeenCalled();
+            });
         });
     });
 });

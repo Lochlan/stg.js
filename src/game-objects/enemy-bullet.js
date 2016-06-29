@@ -23,16 +23,11 @@ class EnemyBullet extends GameObject {
     }
 
     move() {
+        super.move();
         this.sprite.x += this.moves[this.moveIndex].x;
         this.sprite.y += this.moves[this.moveIndex].y;
         this.moveIndex = (this.moveIndex + 1) % this.moves.length;
         this.removeIfDead();
-    }
-
-    removeIfDead() {
-        if (this.sprite.x < 0 || this.sprite.x > CONSTS.GAME.SCREEN.WIDTH) {
-            this.remove();
-        }
     }
 }
 module.exports = EnemyBullet;

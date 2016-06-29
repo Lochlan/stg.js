@@ -23,6 +23,8 @@ describe('Enemy', function () {
         let spriteX, spriteY;
 
         beforeEach(function () {
+            enemy.sprite.x = 100;
+            enemy.sprite.y = 100;
             spriteX = enemy.sprite.x;
             spriteY = enemy.sprite.y;
             enemy.move();
@@ -32,6 +34,18 @@ describe('Enemy', function () {
             expect(
                 (enemy.sprite.x !== spriteX) || (enemy.sprite.y !== spriteY)
             ).toBe(true);
+        });
+
+        describe('when off-screen', function () {
+            beforeEach(function () {
+                enemy.sprite.y = -10000;
+                spyOn(enemy, 'remove');
+                enemy.move();
+            });
+
+            it('should be removed', function () {
+                expect(enemy.remove).toHaveBeenCalled();
+            });
         });
     });
 });

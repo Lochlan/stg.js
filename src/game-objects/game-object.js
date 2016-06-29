@@ -1,8 +1,12 @@
+let CONSTS = require('../consts');
+
 class GameObject {
     constructor({stage} = {}) {
         if (!stage) {
             throw new Error('stage required');
         }
+
+        this.hasAppearedOnScreen = false;
     }
 
     collidesWith(gameObject) {
@@ -37,13 +41,36 @@ class GameObject {
         return this.sprite.y;
     }
 
+    isOffScreen() {
+        return this.sprite.x < 0 - CONSTS.GAME.SCREEN.PADDING
+            || this.sprite.x > CONSTS.GAME.SCREEN.WIDTH + CONSTS.GAME.SCREEN.PADDING
+            || this.sprite.y < 0  - CONSTS.GAME.SCREEN.PADDING
+            || this.sprite.y > CONSTS.GAME.SCREEN.HEIGHT + CONSTS.GAME.SCREEN.PADDING;
+    }
+
+    isOnScreen() {
+        return this.sprite.x > 0
+            && this.sprite.x < CONSTS.GAME.SCREEN.WIDTH
+            && this.sprite.y > 0
+            && this.sprite.y < CONSTS.GAME.SCREEN.HEIGHT;
+    }
+
     move() {
+        if (!this.hasAppearedOnScreen && this.isOnScreen()) {
+            this.hasAppearedOnScreen = true;
+        }
     }
 
     remove() {
         this.stage.removeChild(this.sprite);
         if (this.collection) {
             this.collection.remove(this);
+        }
+    }
+
+    removeIfDead() {
+        if (this.isOffScreen() && this.hasAppearedOnScreen) {
+            this.remove();
         }
     }
 }
