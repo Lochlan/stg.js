@@ -10,6 +10,7 @@ class Game {
         this.state = {
             bullets: new GameObjects(),
             enemies: new GameObjects(),
+            enemyBullets: new GameObjects(),
             input: {
                 left: false,
                 up: false,
@@ -75,6 +76,7 @@ class Game {
 
         this.state.bullets.move()
         this.state.enemies.move()
+        this.state.enemyBullets.move();
         this.handleInput();
         this.checkForCollisions();
         this.processEventQueue();
@@ -93,6 +95,13 @@ class Game {
         if (this.ship) {
             this.state.enemies.ifCollidingWith(this.ship, (enemy) => {
                 enemy.remove();
+                this.handleShipCollision();
+            });
+        }
+
+        if (this.ship) {
+            this.state.enemyBullets.ifCollidingWith(this.ship, (bullet) => {
+                bullet.remove();
                 this.handleShipCollision();
             });
         }
@@ -123,7 +132,7 @@ class Game {
     }
 
     fireEnemyBullet(enemyBullet) {
-        this.state.enemies.add(enemyBullet);
+        this.state.enemyBullets.add(enemyBullet);
         return enemyBullet;
     }
 

@@ -35,6 +35,26 @@ describe('Game', function () {
             });
         });
 
+        describe('when the ship and an enemy bullet are colliding', function () {
+            let enemyBullet;
+
+            beforeEach(function () {
+                enemyBullet = game.fireEnemyBullet(
+                    new Enemy({
+                        stage: game.stage,
+                        x: game.ship.getX(),
+                        y: game.ship.getY(),
+                    })
+                );
+                spyOn(enemyBullet, 'remove');
+                game.checkForCollisions();
+            });
+
+            it('should remove the enemy bullet', function () {
+                expect(enemyBullet.remove).toHaveBeenCalled();
+            });
+        });
+
         describe('when a bullet and an enemy are colliding', function () {
             let bullet;
             let enemy;
@@ -113,8 +133,7 @@ describe('Game', function () {
         });
 
         it('should add an enemy to the game state', function () {
-            // enemy bullets are treated in the main game loop as enemies
-            expect(game.state.enemies.data[0]).toEqual(bullet);
+            expect(game.state.enemyBullets.data[0]).toEqual(bullet);
         });
     });
 
