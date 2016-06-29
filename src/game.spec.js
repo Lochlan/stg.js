@@ -233,6 +233,16 @@ describe('Game', function () {
     });
 
     describe('when handling a ship collision', function () {
+        describe('when there is no ship', function () {
+            beforeEach(function () {
+                delete game.ship;
+            });
+
+            it('should not throw an error', function () {
+                expect(game.handleShipCollision.bind(game)).not.toThrow();
+            });
+        });
+
         describe('when there are extra lives', function () {
             beforeEach(function () {
                 game.state.player.lives = 2;

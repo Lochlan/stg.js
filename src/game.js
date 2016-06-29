@@ -173,6 +173,11 @@ class Game {
     }
 
     handleShipCollision() {
+        // there might not be a ship if two bullets hit at once
+        if (!this.ship) {
+            return;
+        }
+
         this.ship.remove();
         delete this.ship;
         this.state.player.lives -= 1;
