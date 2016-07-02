@@ -99,15 +99,17 @@ class Game {
 
         if (this.ship) {
             this.state.enemies.ifCollidingWith(this.ship, (enemy) => {
-                enemy.remove();
-                this.handleShipCollision();
+                if (this.handleShipCollision()) {
+                    enemy.remove();
+                }
             });
         }
 
         if (this.ship) {
             this.state.enemyBullets.ifCollidingWith(this.ship, (bullet) => {
-                bullet.remove();
-                this.handleShipCollision();
+                if (this.handleShipCollision()) {
+                    bullet.remove();
+                }
             });
         }
     }
@@ -124,6 +126,7 @@ class Game {
 
     createShip() {
         this.ship = new Ship({stage: this.stage, game: this});
+        return this.ship;
     }
 
     fireBullet() {
@@ -153,7 +156,10 @@ class Game {
     handleShipCollision() {
         // there might not be a ship if two bullets hit at once
         if (!this.ship) {
-            return;
+            return false;
+        }
+        if (this.ship.isInvincible()) {
+            return false;
         }
 
         this.ship.remove();
@@ -163,10 +169,11 @@ class Game {
 
         if (this.state.player.lives === 0) {
             this.gameOver();
-            return;
+            return true;
         }
 
-        this.createShip();
+        this.createShip().enableInvincibility();
+        return true;
     }
 
     processEventQueue() {

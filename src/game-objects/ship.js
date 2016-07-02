@@ -13,7 +13,6 @@ class Ship extends GameObject {
             x: [-5, 5],
             y: [-3, 3],
         };
-
         this.game = game;
         this.moves = [];
         this.sprite = new PIXI.Sprite(textures.ship);
@@ -27,11 +26,27 @@ class Ship extends GameObject {
         this.enqueueEnteringScreenMoves();
     }
 
+    decrementInvincibilityTimer() {
+        this.invincibilityTimer--;
+        if (this.invincibilityTimer <= 0) {
+            this.disableInvincibility();
+        }
+    }
 
     dequeuePredeterminedMove() {
         let move = this.moves.shift()
         this.sprite.x += move.x;
         this.sprite.y += move.y;
+    }
+
+    disableInvincibility() {
+        this.invincibilityTimer = 0;
+        this.sprite.alpha = 1;
+    }
+
+    enableInvincibility() {
+        this.invincibilityTimer = 120;
+        this.sprite.alpha = 0.5;
     }
 
     enqueueEnteringScreenMoves() {
@@ -44,10 +59,18 @@ class Ship extends GameObject {
         return this.moves.length > 0;
     }
 
+    isInvincible() {
+        return this.invincibilityTimer > 0;
+    }
+
     move(inputState) {
         if (this.hasPredeterminedMoves()) {
             this.dequeuePredeterminedMove();
             return;
+        }
+
+        if (this.isInvincible()) {
+            this.decrementInvincibilityTimer();
         }
 
         if (inputState.left) {

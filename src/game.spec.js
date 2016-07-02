@@ -47,11 +47,22 @@ describe('Game', function () {
                     })
                 );
                 spyOn(enemy, 'remove');
-                game.checkForCollisions();
             });
 
             it('should remove the enemy', function () {
+                game.checkForCollisions();
                 expect(enemy.remove).toHaveBeenCalled();
+            });
+
+            describe('when the ship collision is not handled', function () {
+                beforeEach(function () {
+                    spyOn(game, 'handleShipCollision').and.returnValue(false);
+                });
+
+                it('should not remove the enemy', function () {
+                    game.checkForCollisions();
+                    expect(enemy.remove).not.toHaveBeenCalled();
+                });
             });
         });
 
@@ -67,11 +78,22 @@ describe('Game', function () {
                     })
                 );
                 spyOn(enemyBullet, 'remove');
-                game.checkForCollisions();
             });
 
             it('should remove the enemy bullet', function () {
+                game.checkForCollisions();
                 expect(enemyBullet.remove).toHaveBeenCalled();
+            });
+
+            describe('when the ship collision is not handled', function () {
+                beforeEach(function () {
+                    spyOn(game, 'handleShipCollision').and.returnValue(false);
+                });
+
+                it('should not remove the enemy bullet', function () {
+                    game.checkForCollisions();
+                    expect(enemyBullet.remove).not.toHaveBeenCalled();
+                });
             });
         });
 
@@ -186,8 +208,18 @@ describe('Game', function () {
                 delete game.ship;
             });
 
-            it('should not throw an error', function () {
-                expect(game.handleShipCollision.bind(game)).not.toThrow();
+            it('should return false', function () {
+                expect(game.handleShipCollision()).toEqual(false);
+            });
+        });
+
+        describe('when the ship is invincible', function () {
+            beforeEach(function () {
+                spyOn(game.ship, 'isInvincible').and.returnValue(true);
+            });
+
+            it('should return false', function () {
+                expect(game.handleShipCollision()).toEqual(false);
             });
         });
 
