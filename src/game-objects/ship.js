@@ -4,7 +4,7 @@ let textures = require('../textures');
 let GameObject = require('./game-object');
 
 class Ship extends GameObject {
-    constructor({stage, x=200, y=150, game} = {}) {
+    constructor({stage, x=40, y=150, game} = {}) {
         super(...arguments);
         if (!game) {
             throw new Error('game required');
@@ -15,6 +15,7 @@ class Ship extends GameObject {
         };
 
         this.game = game;
+        this.moves = [];
         this.sprite = new PIXI.Sprite(textures.ship);
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
@@ -22,9 +23,33 @@ class Ship extends GameObject {
         this.sprite.position.y = y;
         this.stage = stage;
         this.stage.addChild(this.sprite);
+
+        this.enqueueEnteringScreenMoves();
+    }
+
+
+    dequeuePredeterminedMove() {
+        let move = this.moves.shift()
+        this.sprite.x += move.x;
+        this.sprite.y += move.y;
+    }
+
+    enqueueEnteringScreenMoves() {
+        this.sprite.position.x = -20;
+        this.sprite.position.y = parseInt(CONSTS.GAME.SCREEN.HEIGHT / 2, 10);
+        this.moves = Array(20).fill({x: 3, y: 0});
+    }
+
+    hasPredeterminedMoves() {
+        return this.moves.length > 0;
     }
 
     move(inputState) {
+        if (this.hasPredeterminedMoves()) {
+            this.dequeuePredeterminedMove();
+            return;
+        }
+
         if (inputState.left) {
             this.moveLeft();
         }

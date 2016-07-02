@@ -43,57 +43,123 @@ describe('Ship', function () {
             shoot: false,
         });
 
-        describe('when left input is active', function () {
-            beforeEach(function () {
-                spyOn(ship, 'moveLeft');
-                ship.move(_.defaults({left: true}, defaultInput));
+        describe('when there are enqueued predetermined moves', function () {
+            describe('when left input is active', function () {
+                beforeEach(function () {
+                    spyOn(ship, 'moveLeft');
+                    ship.move(_.defaults({left: true}, defaultInput));
+                });
+
+                it('should move left', function () {
+                    expect(ship.moveLeft).not.toHaveBeenCalled();
+                });
             });
 
-            it('should move left', function () {
-                expect(ship.moveLeft).toHaveBeenCalled();
+            describe('when up input is active', function () {
+                beforeEach(function () {
+                    spyOn(ship, 'moveUp');
+                    ship.move(_.defaults({up: true}, defaultInput));
+                });
+
+                it('should move up', function () {
+                    expect(ship.moveUp).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('when right input is active', function () {
+                beforeEach(function () {
+                    spyOn(ship, 'moveRight');
+                    ship.move(_.defaults({right: true}, defaultInput));
+                });
+
+                it('should move right', function () {
+                    expect(ship.moveRight).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('when down input is active', function () {
+                beforeEach(function () {
+                    spyOn(ship, 'moveDown');
+                    ship.move(_.defaults({down: true}, defaultInput));
+                });
+
+                it('should move down', function () {
+                    expect(ship.moveDown).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('when shoot input is active', function () {
+                beforeEach(function () {
+                    ship.move(_.defaults({shoot: true}, defaultInput));
+                });
+
+                it('should fire a bullet', function () {
+                    expect(game.fireBullet).not.toHaveBeenCalled();
+                });
             });
         });
 
-        describe('when up input is active', function () {
+        describe('when positioned centrally with no enqueued predetermined moves', function () {
             beforeEach(function () {
-                spyOn(ship, 'moveUp');
-                ship.move(_.defaults({up: true}, defaultInput));
+                // enable input-driven movement: remove predetermined moves and place ship within screen
+                // (ship normally starts off-screen with a queued animation)
+                ship.moves = [];
+                ship.sprite.x = 100;
+                ship.sprite.y = 100;
             });
 
-            it('should move up', function () {
-                expect(ship.moveUp).toHaveBeenCalled();
-            });
-        });
+            describe('when left input is active', function () {
+                beforeEach(function () {
+                    spyOn(ship, 'moveLeft');
+                    ship.move(_.defaults({left: true}, defaultInput));
+                });
 
-        describe('when right input is active', function () {
-            beforeEach(function () {
-                spyOn(ship, 'moveRight');
-                ship.move(_.defaults({right: true}, defaultInput));
-            });
-
-            it('should move right', function () {
-                expect(ship.moveRight).toHaveBeenCalled();
-            });
-        });
-
-        describe('when down input is active', function () {
-            beforeEach(function () {
-                spyOn(ship, 'moveDown');
-                ship.move(_.defaults({down: true}, defaultInput));
+                it('should move left', function () {
+                    expect(ship.moveLeft).toHaveBeenCalled();
+                });
             });
 
-            it('should move down', function () {
-                expect(ship.moveDown).toHaveBeenCalled();
-            });
-        });
+            describe('when up input is active', function () {
+                beforeEach(function () {
+                    spyOn(ship, 'moveUp');
+                    ship.move(_.defaults({up: true}, defaultInput));
+                });
 
-        describe('when shoot input is active', function () {
-            beforeEach(function () {
-                ship.move(_.defaults({shoot: true}, defaultInput));
+                it('should move up', function () {
+                    expect(ship.moveUp).toHaveBeenCalled();
+                });
             });
 
-            it('should fire a bullet', function () {
-                expect(game.fireBullet).toHaveBeenCalled();
+            describe('when right input is active', function () {
+                beforeEach(function () {
+                    spyOn(ship, 'moveRight');
+                    ship.move(_.defaults({right: true}, defaultInput));
+                });
+
+                it('should move right', function () {
+                    expect(ship.moveRight).toHaveBeenCalled();
+                });
+            });
+
+            describe('when down input is active', function () {
+                beforeEach(function () {
+                    spyOn(ship, 'moveDown');
+                    ship.move(_.defaults({down: true}, defaultInput));
+                });
+
+                it('should move down', function () {
+                    expect(ship.moveDown).toHaveBeenCalled();
+                });
+            });
+
+            describe('when shoot input is active', function () {
+                beforeEach(function () {
+                    ship.move(_.defaults({shoot: true}, defaultInput));
+                });
+
+                it('should fire a bullet', function () {
+                    expect(game.fireBullet).toHaveBeenCalled();
+                });
             });
         });
     });
@@ -152,6 +218,8 @@ describe('Ship', function () {
         let spriteX;
 
         beforeEach(function () {
+            // since ship normally starts off-screen, move to the middle so we can move left
+            ship.sprite.x = 100;
             spriteX = ship.sprite.x;
             ship.moveLeft();
         });
