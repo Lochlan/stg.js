@@ -42,8 +42,8 @@ class ShootingEnemy extends Enemy {
     shoot() {
         let ship = this.game.getShip();
         const angleWithShip = Math.atan2(
-            this.getY() - ship.getY(),
-            this.getX() - ship.getX()
+            this.y - ship.y,
+            this.x - ship.x
         );
 
         const x = -Math.cos(angleWithShip) * this.bulletSpeed;
@@ -52,8 +52,8 @@ class ShootingEnemy extends Enemy {
         this.game.fireEnemyBullet(
             new EnemyBullet({
                 stage: this.stage,
-                x: this.getX(),
-                y: this.getY(),
+                x: this.x,
+                y: this.y,
                 moves: [{x: x, y: y}],
             })
         );

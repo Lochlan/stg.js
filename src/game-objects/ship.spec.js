@@ -272,8 +272,8 @@ describe('Ship', function () {
         beforeEach(function () {
             enemy = new Enemy({
                 stage: stage,
-                x: ship.getX() + 1000, // arbitrary non-colliding distance, far away
-                y: ship.getY(),
+                x: ship.x + 1000, // arbitrary non-colliding distance, far away
+                y: ship.y,
             });
         });
 
@@ -292,8 +292,8 @@ describe('Ship', function () {
         beforeEach(function () {
             enemy = new Enemy({
                 stage: stage,
-                x: ship.getX(),
-                y: ship.getY(),
+                x: ship.x,
+                y: ship.y,
             });
         });
 

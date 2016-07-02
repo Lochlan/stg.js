@@ -129,8 +129,8 @@ class Game {
     fireBullet() {
         let bullet = new Bullet({
             stage: this.stage,
-            x: this.ship.getX(),
-            y: this.ship.getY()
+            x: this.ship.x,
+            y: this.ship.y,
         });
         this.state.bullets.add(bullet);
         return bullet;

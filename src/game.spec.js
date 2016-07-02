@@ -42,8 +42,8 @@ describe('Game', function () {
                 enemy = game.createEnemy(
                     new Enemy({
                         stage: game.stage,
-                        x: game.ship.getX(),
-                        y: game.ship.getY(),
+                        x: game.ship.x,
+                        y: game.ship.y,
                     })
                 );
                 spyOn(enemy, 'remove');
@@ -62,8 +62,8 @@ describe('Game', function () {
                 enemyBullet = game.fireEnemyBullet(
                     new Enemy({
                         stage: game.stage,
-                        x: game.ship.getX(),
-                        y: game.ship.getY(),
+                        x: game.ship.x,
+                        y: game.ship.y,
                     })
                 );
                 spyOn(enemyBullet, 'remove');
@@ -86,8 +86,8 @@ describe('Game', function () {
                 enemy = game.createEnemy(
                     new Enemy({
                         stage: game.stage,
-                        x: game.ship.getX(),
-                        y: game.ship.getY(),
+                        x: game.ship.x,
+                        y: game.ship.y,
                     })
                 );
                 spyOn(enemy, 'remove');

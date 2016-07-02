@@ -33,14 +33,6 @@ class GameObject {
         };
     }
 
-    getX() {
-        return this.sprite.x;
-    }
-
-    getY() {
-        return this.sprite.y;
-    }
-
     isOffScreen() {
         return this.sprite.x < 0 - CONSTS.GAME.SCREEN.PADDING
             || this.sprite.x > CONSTS.GAME.SCREEN.WIDTH + CONSTS.GAME.SCREEN.PADDING
@@ -72,6 +64,14 @@ class GameObject {
         if (this.isOffScreen() && this.hasAppearedOnScreen) {
             this.remove();
         }
+    }
+
+    get x() {
+        return this.sprite.x;
+    }
+
+    get y() {
+        return this.sprite.y;
     }
 }
 module.exports = GameObject;
