@@ -75,7 +75,9 @@ class Game {
         this.state.bullets.move()
         this.state.enemies.move()
         this.state.enemyBullets.move();
-        this.handleInput();
+        if (this.ship) {
+            this.ship.move(this.state.input);
+        }
         this.checkForCollisions();
         this.processEventQueue();
         this.render();
@@ -121,7 +123,7 @@ class Game {
     }
 
     createShip() {
-        this.ship = new Ship({stage: this.stage});
+        this.ship = new Ship({stage: this.stage, game: this});
     }
 
     fireBullet() {
@@ -146,30 +148,6 @@ class Game {
 
     getShip() {
         return this.ship;
-    }
-
-    handleInput() {
-        if (!this.ship) {
-            return;
-        }
-
-        if (this.state.input.left) {
-            this.ship.moveLeft();
-        }
-        if (this.state.input.up) {
-            this.ship.moveUp();
-        }
-        if (this.state.input.right) {
-            this.ship.moveRight();
-        }
-        if (this.state.input.down) {
-            this.ship.moveDown();
-        }
-
-        if (this.state.input.shoot) {
-            this.fireBullet();
-            this.state.input.shoot = false;
-        }
     }
 
     handleShipCollision() {

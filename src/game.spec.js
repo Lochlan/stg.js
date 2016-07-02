@@ -18,6 +18,16 @@ describe('Game', function () {
         it('should not throw an error', function () {
             expect(game.advanceFrame.bind(game)).not.toThrow();
         });
+
+        describe('when there is no ship', function () {
+            beforeEach(function () {
+                delete game.ship;
+            });
+
+            it('should not throw an error', function () {
+                expect(game.advanceFrame.bind(game)).not.toThrow();
+            });
+        });
     });
 
     describe('when checking for collisions', function () {
@@ -163,72 +173,6 @@ describe('Game', function () {
 
         it('should return the game state\'s ship', function () {
             expect(ship).toEqual(game.ship);
-        });
-    });
-
-    describe('when handling input', function () {
-        describe('when left input is active', function () {
-            beforeEach(function () {
-                game.state.input.left = true;
-                spyOn(game.ship, 'moveLeft');
-                game.handleInput();
-            });
-
-            it('should move the ship left', function () {
-                expect(game.ship.moveLeft).toHaveBeenCalled();
-            });
-        });
-
-        describe('when up input is active', function () {
-            beforeEach(function () {
-                game.state.input.up = true;
-                spyOn(game.ship, 'moveUp');
-                game.handleInput();
-            });
-
-            it('should move the ship up', function () {
-                expect(game.ship.moveUp).toHaveBeenCalled();
-            });
-        });
-
-        describe('when right input is active', function () {
-            beforeEach(function () {
-                game.state.input.right = true;
-                spyOn(game.ship, 'moveRight');
-                game.handleInput();
-            });
-
-            it('should move the ship right', function () {
-                expect(game.ship.moveRight).toHaveBeenCalled();
-            });
-        });
-
-        describe('when down input is active', function () {
-            beforeEach(function () {
-                game.state.input.down = true;
-                spyOn(game.ship, 'moveDown');
-                game.handleInput();
-            });
-
-            it('should move the ship down', function () {
-                expect(game.ship.moveDown).toHaveBeenCalled();
-            });
-        });
-
-        describe('when shoot input is active', function () {
-            beforeEach(function () {
-                game.state.input.shoot = true;
-                spyOn(game, 'fireBullet');
-                game.handleInput();
-            });
-
-            it('should fire a bullet', function () {
-                expect(game.fireBullet).toHaveBeenCalled();
-            });
-
-            it('should set shoot input to inactive', function () {
-                expect(game.state.input.shoot).toEqual(false);
-            });
         });
     });
 

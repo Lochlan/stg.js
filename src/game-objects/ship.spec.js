@@ -1,23 +1,101 @@
 let Ship = require('./ship');
 
+let _ = require('lodash');
 let PIXI = require('pixi.js');
+let CONSTS = require('../consts');
 let Enemy = require('./enemies/enemy');
 
 describe('Ship', function () {
     let ship;
     let stage;
+    let game;
 
     beforeEach(function () {
+        game = {
+            fireBullet: jasmine.createSpy('fireBullet'),
+        };
         stage = new PIXI.Container();
-        ship = new Ship({stage: stage});
+        ship = new Ship({stage: stage, game: game});
+    });
+
+    it('should throw an Error if instantiated without any options', function () {
+        expect(function () { new Ship(); }).toThrow();
     });
 
     it('should throw an Error if instantiated without a stage', function () {
-        expect(function () { new Ship(); }).toThrow();
+        expect(function () { new Ship({game: game}); }).toThrow();
+    });
+
+    it('should throw an Error if instantiated without a game', function () {
+        expect(function () { new Ship({stage: stage}); }).toThrow();
     });
 
     it('should instantiate', function () {
         expect(ship).toBeDefined();
+    });
+
+    describe('when moving', function () {
+        let defaultInput = Object.freeze({
+            left: false,
+            up: false,
+            right: false,
+            down: false,
+            shoot: false,
+        });
+
+        describe('when left input is active', function () {
+            beforeEach(function () {
+                spyOn(ship, 'moveLeft');
+                ship.move(_.defaults({left: true}, defaultInput));
+            });
+
+            it('should move left', function () {
+                expect(ship.moveLeft).toHaveBeenCalled();
+            });
+        });
+
+        describe('when up input is active', function () {
+            beforeEach(function () {
+                spyOn(ship, 'moveUp');
+                ship.move(_.defaults({up: true}, defaultInput));
+            });
+
+            it('should move up', function () {
+                expect(ship.moveUp).toHaveBeenCalled();
+            });
+        });
+
+        describe('when right input is active', function () {
+            beforeEach(function () {
+                spyOn(ship, 'moveRight');
+                ship.move(_.defaults({right: true}, defaultInput));
+            });
+
+            it('should move right', function () {
+                expect(ship.moveRight).toHaveBeenCalled();
+            });
+        });
+
+        describe('when down input is active', function () {
+            beforeEach(function () {
+                spyOn(ship, 'moveDown');
+                ship.move(_.defaults({down: true}, defaultInput));
+            });
+
+            it('should move down', function () {
+                expect(ship.moveDown).toHaveBeenCalled();
+            });
+        });
+
+        describe('when shoot input is active', function () {
+            beforeEach(function () {
+                ship.move(_.defaults({shoot: true}, defaultInput));
+            });
+
+            it('should fire a bullet', function () {
+                expect(game.fireBullet).toHaveBeenCalled();
+            });
+        });
     });
 
     describe('when moving down', function () {
@@ -30,6 +108,18 @@ describe('Ship', function () {
 
         it('should increase the value of sprite.y', function () {
             expect(ship.sprite.y).toBeGreaterThan(spriteY);
+        });
+
+        describe('when at the bottom of the screen', function () {
+            beforeEach(function () {
+                ship.sprite.y = CONSTS.GAME.SCREEN.HEIGHT
+                spriteY = ship.sprite.y;
+                ship.moveDown();
+            });
+
+            it('should not increase the value of sprite.y', function () {
+                expect(ship.sprite.y).toEqual(spriteY);
+            });
         });
     });
 
@@ -44,6 +134,18 @@ describe('Ship', function () {
         it('should decrease the value of sprite.y', function () {
             expect(ship.sprite.y).toBeLessThan(spriteY);
         });
+
+        describe('when at the top of the screen', function () {
+            beforeEach(function () {
+                ship.sprite.y = 0
+                spriteY = ship.sprite.y;
+                ship.moveUp();
+            });
+
+            it('should not decrease the value of sprite.y', function () {
+                expect(ship.sprite.y).toEqual(spriteY);
+            });
+        });
     });
 
     describe('when moving left', function () {
@@ -57,6 +159,18 @@ describe('Ship', function () {
         it('should decrease the value of sprite.x', function () {
             expect(ship.sprite.x).toBeLessThan(spriteX);
         });
+
+        describe('when at the left side of the screen', function () {
+            beforeEach(function () {
+                ship.sprite.x = 0
+                spriteX = ship.sprite.x;
+                ship.moveLeft();
+            });
+
+            it('should not decrease the value of sprite.x', function () {
+                expect(ship.sprite.x).toEqual(spriteX);
+            });
+        });
     });
 
     describe('when moving right', function () {
@@ -69,6 +183,18 @@ describe('Ship', function () {
 
         it('should increase the value of sprite.x', function () {
             expect(ship.sprite.x).toBeGreaterThan(spriteX);
+        });
+
+        describe('when at the right side of the screen', function () {
+            beforeEach(function () {
+                ship.sprite.x = CONSTS.GAME.SCREEN.WIDTH
+                spriteX = ship.sprite.x;
+                ship.moveRight();
+            });
+
+            it('should not increase the value of sprite.x', function () {
+                expect(ship.sprite.x).toEqual(spriteX);
+            });
         });
     });
 
