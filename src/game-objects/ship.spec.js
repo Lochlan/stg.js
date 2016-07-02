@@ -50,7 +50,7 @@ describe('Ship', function () {
                     ship.move(_.defaults({left: true}, defaultInput));
                 });
 
-                it('should move left', function () {
+                it('should not move left', function () {
                     expect(ship.moveLeft).not.toHaveBeenCalled();
                 });
             });
@@ -61,7 +61,7 @@ describe('Ship', function () {
                     ship.move(_.defaults({up: true}, defaultInput));
                 });
 
-                it('should move up', function () {
+                it('should not move up', function () {
                     expect(ship.moveUp).not.toHaveBeenCalled();
                 });
             });
@@ -72,7 +72,7 @@ describe('Ship', function () {
                     ship.move(_.defaults({right: true}, defaultInput));
                 });
 
-                it('should move right', function () {
+                it('should not move right', function () {
                     expect(ship.moveRight).not.toHaveBeenCalled();
                 });
             });
@@ -83,7 +83,7 @@ describe('Ship', function () {
                     ship.move(_.defaults({down: true}, defaultInput));
                 });
 
-                it('should move down', function () {
+                it('should not move down', function () {
                     expect(ship.moveDown).not.toHaveBeenCalled();
                 });
             });
@@ -95,6 +95,18 @@ describe('Ship', function () {
 
                 it('should fire a bullet', function () {
                     expect(game.fireBullet).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('when invincible', function () {
+                beforeEach(function () {
+                    spyOn(ship, 'decrementInvincibilityTimer');
+                    ship.invincibilityTimer = 120;
+                    ship.move(defaultInput);
+                });
+
+                it('should not decrement the invincibility timer', function () {
+                    expect(ship.decrementInvincibilityTimer).not.toHaveBeenCalled();
                 });
             });
         });
@@ -159,6 +171,18 @@ describe('Ship', function () {
 
                 it('should fire a bullet', function () {
                     expect(game.fireBullet).toHaveBeenCalled();
+                });
+            });
+
+            describe('when invincible', function () {
+                beforeEach(function () {
+                    spyOn(ship, 'decrementInvincibilityTimer');
+                    ship.invincibilityTimer = 120;
+                    ship.move(defaultInput);
+                });
+
+                it('should decrement the invincibility timer', function () {
+                    expect(ship.decrementInvincibilityTimer).toHaveBeenCalled();
                 });
             });
         });
