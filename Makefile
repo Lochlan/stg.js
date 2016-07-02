@@ -5,6 +5,11 @@ clean:
 		assets/bundle.js\
 		js/\
 
+distclean: clean
+	rm -rfv\
+		coverage/\
+		node_modules/\
+
 test: node_modules
 	node_modules/.bin/karma start
 
