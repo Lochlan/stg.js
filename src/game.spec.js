@@ -10,6 +10,10 @@ describe('Game', function () {
         game = new Game({eventQueue: []});
     });
 
+    it('should throw an Error if instantiated without any options', function () {
+        expect(function () { new Game(); }).toThrow();
+    });
+
     it('should instantiate', function () {
         expect(game).toBeDefined();
     });
