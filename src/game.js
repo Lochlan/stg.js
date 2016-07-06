@@ -36,6 +36,9 @@ class Game {
 
         this.createLivesDisplay();
         this.createShip();
+
+        window.addEventListener('resize', this.setUpDisplay);
+        this.setUpDisplay();
     }
 
     addInputListeners() {
@@ -184,6 +187,11 @@ class Game {
         }
     }
 
+    removeEventListeners() {
+        window.removeEventListener('resize', this.setUpDisplay);
+        this.removeInputListeners();
+    }
+
     removeInputListeners() {
         document.removeEventListener('keydown', this.addInputListenersKeydownCallback);
         document.removeEventListener('keyup', this.addInputListenersKeyupCallback);
@@ -194,9 +202,26 @@ class Game {
             'addInputListenersKeydownCallback',
             'addInputListenersKeyupCallback',
             'animate',
+            'setUpDisplay',
         ].forEach((methodName) => {
             this[methodName] = this[methodName].bind(this);
         });
+    }
+
+    setUpDisplay() {
+        const display = this.renderer.view;
+
+        const displayAspectRatio = display.width / display.height;
+        const viewportAspectRatio = window.innerWidth / window.innerHeight;
+        // viewport is too wide
+        if (viewportAspectRatio > displayAspectRatio) {
+            display.style.width = 'auto';
+            display.style.height = '100%';
+            return;
+        }
+        // viewport is too tall or the same aspect ratio
+        display.style.width = '100%';
+        display.style.height = 'auto';
     }
 
     updateLivesDisplay() {

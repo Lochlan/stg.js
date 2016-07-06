@@ -10,6 +10,10 @@ describe('Game', function () {
         game = new Game({eventQueue: []});
     });
 
+    afterEach(function () {
+        game.removeEventListeners();
+    });
+
     it('should throw an Error if instantiated without any options', function () {
         expect(function () { new Game(); }).toThrow();
     });

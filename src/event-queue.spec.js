@@ -9,6 +9,10 @@ describe('Event queue', function () {
             game = new Game({eventQueue: eventQueue});
         });
 
+        afterEach(function () {
+            game.removeEventListeners();
+        });
+
         it('should process every event without throwing an error', function () {
             eventQueue.forEach(function (event) {
                 expect(event.procedure.bind(game)).not.toThrow();
