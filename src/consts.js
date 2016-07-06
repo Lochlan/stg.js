@@ -4,8 +4,8 @@ let CONSTS = {
             SPEED: 10,
         },
         SCREEN: {
-            HEIGHT: 300,
-            WIDTH: 400,
+            HEIGHT: 224,
+            WIDTH: 256,
             PADDING: 40,
         },
         SHIP: {
