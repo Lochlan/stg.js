@@ -1,11 +1,9 @@
-let PIXI = require('pixi.js');
-let textures = require('../../textures');
 let Enemy = require('./enemy');
 let EnemyBullet = require('../enemy-bullet');
 
 class ShootingEnemy extends Enemy {
-    constructor({stage, x, y, game} = {}) {
-        super(...arguments);
+    constructor({game} = {}) {
+        super(arguments[0], 'shootingEnemy');
         if (!game) {
             throw new Error('game required');
         }
@@ -22,13 +20,6 @@ class ShootingEnemy extends Enemy {
 
         this.bulletSpeed = 3;
         this.game = game;
-        this.sprite = new PIXI.Sprite(textures.shootingEnemy);
-        this.sprite.anchor.x = 0.5;
-        this.sprite.anchor.y = 0.5;
-        this.sprite.position.x = x;
-        this.sprite.position.y = y;
-        this.stage = stage;
-        this.stage.addChild(this.sprite);
     }
 
     move() {

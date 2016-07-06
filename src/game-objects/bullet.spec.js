@@ -23,22 +23,22 @@ describe('Bullet', function () {
         let spriteX, spriteY;
 
         beforeEach(function () {
-            bullet.sprite.x = 100;
-            bullet.sprite.y = 100;
-            spriteX = bullet.sprite.x;
-            spriteY = bullet.sprite.y;
+            bullet.x = 100;
+            bullet.y = 100;
+            spriteX = bullet.x;
+            spriteY = bullet.y;
             bullet.move();
         });
 
         it('should change the sprite\'s x or y position', function () {
             expect(
-                (bullet.sprite.x !== spriteX) || (bullet.sprite.y !== spriteY)
+                (bullet.x !== spriteX) || (bullet.y !== spriteY)
             ).toBe(true);
         });
 
         describe('when off-screen', function () {
             beforeEach(function () {
-                bullet.sprite.x = 10000;
+                bullet.x = 10000;
                 spyOn(bullet, 'remove');
                 bullet.move();
             });

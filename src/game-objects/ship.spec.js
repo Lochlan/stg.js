@@ -116,8 +116,8 @@ describe('Ship', function () {
                 // enable input-driven movement: remove predetermined moves and place ship within screen
                 // (ship normally starts off-screen with a queued animation)
                 ship.moves = [];
-                ship.sprite.x = 100;
-                ship.sprite.y = 100;
+                ship.x = 100;
+                ship.y = 100;
             });
 
             describe('when left input is active', function () {
@@ -192,23 +192,23 @@ describe('Ship', function () {
         let spriteY;
 
         beforeEach(function () {
-            spriteY = ship.sprite.y;
+            spriteY = ship.y;
             ship.moveDown();
         });
 
         it('should increase the value of sprite.y', function () {
-            expect(ship.sprite.y).toBeGreaterThan(spriteY);
+            expect(ship.y).toBeGreaterThan(spriteY);
         });
 
         describe('when at the bottom of the screen', function () {
             beforeEach(function () {
-                ship.sprite.y = CONSTS.GAME.SCREEN.HEIGHT
-                spriteY = ship.sprite.y;
+                ship.y = CONSTS.GAME.SCREEN.HEIGHT
+                spriteY = ship.y;
                 ship.moveDown();
             });
 
             it('should not increase the value of sprite.y', function () {
-                expect(ship.sprite.y).toEqual(spriteY);
+                expect(ship.y).toEqual(spriteY);
             });
         });
     });
@@ -217,23 +217,23 @@ describe('Ship', function () {
         let spriteY;
 
         beforeEach(function () {
-            spriteY = ship.sprite.y;
+            spriteY = ship.y;
             ship.moveUp();
         });
 
         it('should decrease the value of sprite.y', function () {
-            expect(ship.sprite.y).toBeLessThan(spriteY);
+            expect(ship.y).toBeLessThan(spriteY);
         });
 
         describe('when at the top of the screen', function () {
             beforeEach(function () {
-                ship.sprite.y = 0
-                spriteY = ship.sprite.y;
+                ship.y = 0
+                spriteY = ship.y;
                 ship.moveUp();
             });
 
             it('should not decrease the value of sprite.y', function () {
-                expect(ship.sprite.y).toEqual(spriteY);
+                expect(ship.y).toEqual(spriteY);
             });
         });
     });
@@ -243,24 +243,24 @@ describe('Ship', function () {
 
         beforeEach(function () {
             // since ship normally starts off-screen, move to the middle so we can move left
-            ship.sprite.x = 100;
-            spriteX = ship.sprite.x;
+            ship.x = 100;
+            spriteX = ship.x;
             ship.moveLeft();
         });
 
         it('should decrease the value of sprite.x', function () {
-            expect(ship.sprite.x).toBeLessThan(spriteX);
+            expect(ship.x).toBeLessThan(spriteX);
         });
 
         describe('when at the left side of the screen', function () {
             beforeEach(function () {
-                ship.sprite.x = 0
-                spriteX = ship.sprite.x;
+                ship.x = 0
+                spriteX = ship.x;
                 ship.moveLeft();
             });
 
             it('should not decrease the value of sprite.x', function () {
-                expect(ship.sprite.x).toEqual(spriteX);
+                expect(ship.x).toEqual(spriteX);
             });
         });
     });
@@ -269,23 +269,23 @@ describe('Ship', function () {
         let spriteX;
 
         beforeEach(function () {
-            spriteX = ship.sprite.x;
+            spriteX = ship.x;
             ship.moveRight();
         });
 
         it('should increase the value of sprite.x', function () {
-            expect(ship.sprite.x).toBeGreaterThan(spriteX);
+            expect(ship.x).toBeGreaterThan(spriteX);
         });
 
         describe('when at the right side of the screen', function () {
             beforeEach(function () {
-                ship.sprite.x = CONSTS.GAME.SCREEN.WIDTH
-                spriteX = ship.sprite.x;
+                ship.x = CONSTS.GAME.SCREEN.WIDTH
+                spriteX = ship.x;
                 ship.moveRight();
             });
 
             it('should not increase the value of sprite.x', function () {
-                expect(ship.sprite.x).toEqual(spriteX);
+                expect(ship.x).toEqual(spriteX);
             });
         });
     });

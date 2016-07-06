@@ -1,10 +1,8 @@
-let PIXI = require('pixi.js');
-let textures = require('../../textures');
 let GameObject = require('../game-object');
 
 class Enemy extends GameObject {
-    constructor({stage, x, y} = {}) {
-        super(...arguments);
+    constructor(options, textureName = 'enemy') {
+        super(options, textureName);
         this.hitbox = {
             x: [-5, 5],
             y: [-5, 5],
@@ -44,20 +42,12 @@ class Enemy extends GameObject {
             {x: -1, y: 0.9807852804},
         ];
         this.moveIndex = 0;
-
-        this.sprite = new PIXI.Sprite(textures.enemy);
-        this.sprite.anchor.x = 0.5;
-        this.sprite.anchor.y = 0.5;
-        this.sprite.position.x = x;
-        this.sprite.position.y = y;
-        this.stage = stage;
-        this.stage.addChild(this.sprite);
     }
 
     move() {
         super.move();
-        this.sprite.x += this.moves[this.moveIndex].x;
-        this.sprite.y += this.moves[this.moveIndex].y * 8;
+        this.x += this.moves[this.moveIndex].x;
+        this.y += this.moves[this.moveIndex].y * 8;
         this.moveIndex = (this.moveIndex + 1) % this.moves.length;
         this.removeIfDead();
     }
