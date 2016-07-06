@@ -11,6 +11,7 @@ class Game {
             bullets: new GameObjects(),
             enemies: new GameObjects(),
             enemyBullets: new GameObjects(),
+            currentFrame: 0,
             input: {
                 left: false,
                 up: false,
@@ -21,7 +22,6 @@ class Game {
             player: {
                 lives: 3,
             },
-            startTime: new Date().getTime(),
         };
         this.eventQueue = eventQueue.slice(); // don't modify original
 
@@ -75,6 +75,7 @@ class Game {
     }
 
     advanceFrame() {
+        this.state.currentFrame++;
         this.state.bullets.move()
         this.state.enemies.move()
         this.state.enemyBullets.move();
@@ -180,8 +181,7 @@ class Game {
     }
 
     processEventQueue() {
-        let currentTime = new Date().getTime() - this.state.startTime;
-        while (this.eventQueue.length > 0 && currentTime >= this.eventQueue[0].time) {
+        while (this.eventQueue.length > 0 && this.state.currentFrame >= this.eventQueue[0].frame) {
             let currentEvent = this.eventQueue.shift();
             currentEvent.procedure.apply(this);
         }

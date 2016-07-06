@@ -3,49 +3,49 @@ let ShootingEnemy = require('./game-objects/enemies/shooting-enemy');
 
 let eventQueue = [
     {
-        time: 200,
+        frame: 60,
         procedure() {
             this.createEnemy(new Enemy({stage: this.stage, x: 300, y: 112}));
         }
     },
     {
-        time: 400,
+        frame: 70,
         procedure() {
             this.createEnemy(new Enemy({stage: this.stage, x: 300, y: 112}));
         }
     },
     {
-        time: 600,
+        frame: 80,
         procedure() {
             this.createEnemy(new Enemy({stage: this.stage, x: 300, y: 112}));
         }
     },
     {
-        time: 800,
+        frame: 90,
         procedure() {
             this.createEnemy(new Enemy({stage: this.stage, x: 300, y: 112}));
         }
     },
     {
-        time: 1000,
+        frame: 100,
         procedure() {
             this.createEnemy(new Enemy({stage: this.stage, x: 300, y: 112}));
         }
     },
     {
-        time: 1200,
+        frame: 110,
         procedure() {
             this.createEnemy(new Enemy({stage: this.stage, x: 300, y: 112}));
         }
     },
     {
-        time: 1500,
+        frame: 150,
         procedure() {
             this.createEnemy(new ShootingEnemy({stage: this.stage, x: 300, y: 40, game: this}));
         }
     },
     {
-        time: 1500,
+        frame: 150,
         procedure() {
             this.createEnemy(new ShootingEnemy({stage: this.stage, x: 300, y: 184, game: this}));
         }

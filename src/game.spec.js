@@ -258,7 +258,7 @@ describe('Game', function () {
 
             beforeEach(function () {
                 processedEvent = {
-                    time: 0,
+                    frame: 0,
                     procedure: jasmine.createSpy('procedure'),
                 };
                 game.eventQueue = [processedEvent];
