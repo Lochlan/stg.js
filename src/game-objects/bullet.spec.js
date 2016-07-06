@@ -1,13 +1,14 @@
 let Bullet = require('./bullet');
 
-let PIXI = require('pixi.js');
-
 describe('Bullet', function () {
     let bullet;
     let stage;
 
     beforeEach(function () {
-        stage = new PIXI.Container();
+        stage = {
+            addChild: jasmine.createSpy('addChild'),
+            removeChild: jasmine.createSpy('removeChild'),
+        };
         bullet = new Bullet({stage: stage});
     });
 

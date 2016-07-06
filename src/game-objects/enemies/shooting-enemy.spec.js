@@ -1,6 +1,5 @@
 let ShootingEnemy = require('./shooting-enemy');
 
-let PIXI = require('pixi.js');
 let Enemy = require('./enemy');
 
 describe('ShootingEnemy', function () {
@@ -9,7 +8,10 @@ describe('ShootingEnemy', function () {
     let game;
 
     beforeEach(function () {
-        stage = new PIXI.Container();
+        stage = {
+            addChild: jasmine.createSpy('addChild'),
+            removeChild: jasmine.createSpy('removeChild'),
+        };
         let shipDouble = new Enemy({stage: stage});
         game = {
             fireEnemyBullet: jasmine.createSpy('fireEnemyBullet'),

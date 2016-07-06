@@ -1,13 +1,14 @@
 let Enemy = require('./enemy');
 
-let PIXI = require('pixi.js');
-
 describe('Enemy', function () {
     let enemy;
     let stage;
 
     beforeEach(function () {
-        stage = new PIXI.Container();
+        stage = {
+            addChild: jasmine.createSpy('addChild'),
+            removeChild: jasmine.createSpy('removeChild'),
+        };
         enemy = new Enemy({stage: stage});
     });
 

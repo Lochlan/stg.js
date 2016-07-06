@@ -1,6 +1,5 @@
 let GameObjects = require('./game-objects');
 
-let PIXI = require('pixi.js');
 let Enemy = require('./enemies/enemy');
 
 describe('GameObjects', function () {
@@ -8,7 +7,10 @@ describe('GameObjects', function () {
     let stage;
 
     beforeEach(function () {
-        stage = new PIXI.Container();
+        stage = {
+            addChild: jasmine.createSpy('addChild'),
+            removeChild: jasmine.createSpy('removeChild'),
+        };
         collection = new GameObjects(
             new Enemy({stage: stage, x: 100, y: 100}),
             new Enemy({stage: stage, x: 200, y: 200}),
