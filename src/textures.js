@@ -1,6 +1,7 @@
 let PIXI = require('pixi.js');
 
 let textures = {
+    bigWheel: PIXI.Texture.fromImage('assets/big-disc-enemy.png'),
     bullet: PIXI.Texture.fromImage('assets/bullet.png'),
     enemy: PIXI.Texture.fromImage('assets/target.png'),
     enemyBullet: PIXI.Texture.fromImage('assets/enemy-bullet.png'),

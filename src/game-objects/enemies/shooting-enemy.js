@@ -2,8 +2,8 @@ let Enemy = require('./enemy');
 let EnemyBullet = require('../enemy-bullet');
 
 class ShootingEnemy extends Enemy {
-    constructor({game} = {}) {
-        super(arguments[0], 'shootingEnemy');
+    constructor({game} = {}, textureName = 'shootingEnemy') {
+        super(arguments[0], textureName);
         if (!game) {
             throw new Error('game required');
         }
@@ -22,32 +22,62 @@ class ShootingEnemy extends Enemy {
         this.game = game;
     }
 
-    move() {
-        super.move();
-
-        if (this.moves[this.moveIndex].action === 'shoot') {
-            this.shoot();
-        }
-    }
-
-    shoot() {
-        let ship = this.game.getShip();
-        const angleWithShip = Math.atan2(
-            this.y - ship.y,
-            this.x - ship.x
-        );
-
-        const x = -Math.cos(angleWithShip) * this.bulletSpeed;
-        const y = -Math.sin(angleWithShip) * this.bulletSpeed;
-
+    fireBullet(moves) {
         this.game.fireEnemyBullet(
             new EnemyBullet({
                 stage: this.stage,
                 x: this.x,
                 y: this.y,
-                moves: [{x: x, y: y}],
+                moves: moves,
             })
         );
+    }
+
+    getAngleWithGameObject(gameObject) {
+        if (!gameObject) return;
+
+        return Math.atan2(
+            this.y - gameObject.y,
+            this.x - gameObject.x
+        );
+    }
+
+    move() {
+        super.move();
+
+        if (this.moves[this.moveIndex].action === 'shoot') {
+            this.shoot3Way();
+        }
+    }
+
+    shoot() {
+        const angleWithShip = this.getAngleWithGameObject(this.game.getShip());
+
+        const x = -Math.cos(angleWithShip) * this.bulletSpeed;
+        const y = -Math.sin(angleWithShip) * this.bulletSpeed;
+
+        this.fireBullet([{x: x, y: y}]);
+    }
+
+    shoot3Way() {
+        const ship = this.game.getShip();
+        if (!ship) return;
+        const angleWithShip = this.getAngleWithGameObject(ship);
+
+        this.fireBullet([{
+            x: -Math.cos(angleWithShip - 0.2) * this.bulletSpeed,
+            y: -Math.sin(angleWithShip - 0.2) * this.bulletSpeed,
+        }]);
+
+        this.fireBullet([{
+            x: -Math.cos(angleWithShip) * this.bulletSpeed,
+            y: -Math.sin(angleWithShip) * this.bulletSpeed,
+        }]);
+
+        this.fireBullet([{
+            x: -Math.cos(angleWithShip + 0.2) * this.bulletSpeed,
+            y: -Math.sin(angleWithShip + 0.2) * this.bulletSpeed,
+        }]);
     }
 }
 module.exports = ShootingEnemy;

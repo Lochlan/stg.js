@@ -89,6 +89,14 @@ class GameObject {
         return this.sprite.alpha = alpha;
     }
 
+    get rotation() {
+        return this.sprite.rotation;
+    }
+
+    set rotation(rotation) {
+        return this.sprite.rotation = rotation;
+    }
+
     get x() {
         return this.sprite.x;
     }
